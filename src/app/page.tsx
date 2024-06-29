@@ -2,7 +2,7 @@ import { db } from "~/server/db";
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  let randomBoardGame = await GetBoardGameFromRandomId();
+  let randomBoardGame: Awaited<ReturnType<typeof GetBoardGameFromRandomId>>;
 
   while (!randomBoardGame) {
     // bit of a hack just to test db connection
