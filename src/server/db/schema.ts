@@ -8,9 +8,10 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 
-export const createTable = pgTableCreator((name) => `boardGameTracker_${name}`);
+// we share the board game database between development and production
+const createSharedTable = pgTableCreator((name) => `boardGameTracker_${name}`);
 
-export const boardGame = createTable(
+export const boardGame = createSharedTable(
   "boardGame",
   {
     id: serial("id").primaryKey(),
