@@ -1,5 +1,7 @@
 # Board Game Tracker
 
+[board-game-tracker.vercel.app](board-game-tracker.vercel.app)
+
 ## To do
 
 - [x] Deploy it (vercel)
