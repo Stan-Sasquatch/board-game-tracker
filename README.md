@@ -1,6 +1,6 @@
 # Board Game Tracker
 
-[board-game-tracker.vercel.app](board-game-tracker.vercel.app)
+[board-game-tracker.vercel.app](https://board-game-tracker.vercel.app/)
 
 ## To do
 
