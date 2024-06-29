@@ -2,7 +2,8 @@
 
 ## To do
 
-- [] Deploy it (vercel)
-- [] link to existing db on vercel
+- [x] Deploy it (vercel)
+- [x] link to existing db on vercel
 - [] auth
+- [] development only db
 - [] sentry?
