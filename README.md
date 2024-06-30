@@ -9,4 +9,4 @@
 - [] auth
 - [] development only db
 - [] sentry?
-- [] consistent db field names
+- [x] consistent db field names

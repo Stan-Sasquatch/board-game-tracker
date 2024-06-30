@@ -16,11 +16,11 @@ export const boardGame = createSharedTable(
   {
     id: serial("id").primaryKey(),
     name: varchar("name", { length: 256 }).notNull(),
-    yearPublished: integer("yearPublished").notNull(),
+    yearPublished: integer("year_published").notNull(),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
-    updatedAt: timestamp("updatedAt"),
+    updatedAt: timestamp("updated_at"),
   },
   (example) => ({
     nameIndex: index("name_idx").on(example.name),
