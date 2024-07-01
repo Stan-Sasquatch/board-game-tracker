@@ -17,7 +17,7 @@ export function NavBar() {
       {links.map((l) => (
         <div key={l.href}>
           <Link
-            className={`hover:text-gray-600 ${
+            className={`text-sm hover:text-gray-600 sm:text-xl ${
               pathName == l.href ? "underline underline-offset-4" : ""
             }`}
             href={l.href}
