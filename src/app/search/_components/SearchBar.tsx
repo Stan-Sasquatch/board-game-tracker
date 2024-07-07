@@ -1,7 +1,8 @@
 "use client";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { type ChangeEventHandler } from "react";
 import { type boardGameSearchParams } from "../models";
+import { type DebouncedState, useDebouncedCallback } from "use-debounce";
 
 export function SearchBar() {
   const boardGameNameKey = "boardGameName" satisfies keyof Exclude<
@@ -9,16 +10,18 @@ export function SearchBar() {
     undefined
   >;
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const router = useRouter();
-  const onChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    router.replace(`/search?${boardGameNameKey}=${e.target.value}`);
-  };
 
-  const searchValue = searchParams.get(boardGameNameKey) ?? "";
+  const onChange: DebouncedState<ChangeEventHandler<HTMLInputElement>> =
+    useDebouncedCallback((e) => {
+      router.replace(`${pathname}?${boardGameNameKey}=${e.target.value}`);
+    }, 300);
+
   return (
     <input
       type="text"
-      value={searchValue}
+      defaultValue={searchParams.get(boardGameNameKey)?.toString()}
       onChange={onChange}
       className="text-black"
     />
