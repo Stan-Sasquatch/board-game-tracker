@@ -3,6 +3,7 @@ import { db } from "~/server/db";
 import { boardGameSearchParamsSchema } from "./models";
 import { boardGame } from "~/server/db/schema";
 import { sql } from "drizzle-orm";
+import { SearchResults } from "./_components/SearchResults";
 
 export default async function Search({
   searchParams,
@@ -16,17 +17,14 @@ export default async function Search({
   return (
     <div>
       <h1>Search Page</h1>
-      <SearchBar />
-      {results && (
-        <ul>
-          {results.map((r) => (
-            <li key={r.id}>{r.name}</li>
-          ))}
-        </ul>
-      )}
+      <SearchBar>
+        <SearchResults results={results} />
+      </SearchBar>
     </div>
   );
 }
+
+export type BoardGameList = Awaited<ReturnType<typeof GetBoardgames>>;
 async function GetBoardgames(
   parsedSearchParams: { boardGameName?: string | undefined } | undefined,
 ) {

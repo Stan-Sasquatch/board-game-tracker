@@ -7,3 +7,7 @@ export const boardGameSearchParamsSchema = z
   .optional();
 
 export type boardGameSearchParams = z.infer<typeof boardGameSearchParamsSchema>;
+export const boardGameNameKey = "boardGameName" satisfies keyof Exclude<
+  boardGameSearchParams,
+  undefined
+>;
