@@ -14,7 +14,7 @@ export function SearchBar({ children }: { children: React.ReactNode }) {
   }, 300);
 
   return (
-    <Command>
+    <Command className={"w-72 sm:w-96"}>
       <CommandInput
         placeholder="Search..."
         defaultValue={searchParams.get(boardGameNameKey)?.toString()}

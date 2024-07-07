@@ -15,7 +15,7 @@ export default async function Search({
   const results = await GetBoardgames(parsedSearchParams);
 
   return (
-    <div>
+    <div className="flex w-2/3 flex-col items-center justify-center">
       <h1>Search Page</h1>
       <SearchBar>
         <SearchResults results={results} />
