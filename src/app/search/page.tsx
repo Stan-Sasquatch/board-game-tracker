@@ -3,7 +3,6 @@ import { db } from "~/server/db";
 import { boardGameSearchParamsSchema } from "./models";
 import { boardGame } from "~/server/db/schema";
 import { sql } from "drizzle-orm";
-import { SearchResults } from "./_components/SearchResults";
 
 export default async function Search({
   searchParams,
@@ -16,10 +15,7 @@ export default async function Search({
 
   return (
     <div className="flex w-2/3 flex-col items-center justify-center p-24">
-      <h1>Search Page</h1>
-      <SearchBar>
-        <SearchResults results={results} />
-      </SearchBar>
+      <SearchBar results={results} />
     </div>
   );
 }
