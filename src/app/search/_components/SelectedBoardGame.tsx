@@ -1,14 +1,27 @@
 import { Button } from "~/components/ui/button";
-import { BoardGame, boardGameNameKey } from "../models";
+import { type BoardGameSearchParams } from "../models";
 import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
-import { usePathname, useSearchParams } from "next/navigation";
+import { db } from "~/server/db";
 
-export function SelectedBoardGame({ boardGame }: { boardGame: BoardGame }) {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
+export async function SelectedBoardGame({
+  searchParams,
+}: {
+  searchParams: BoardGameSearchParams;
+}) {
+  const selectedId = searchParams?.selected;
 
+  if (!selectedId) {
+    throw new Error("No board game id found in url");
+  }
   const params = new URLSearchParams(searchParams);
-  params.set("selected", boardGame.id.toString());
+
+  const boardGame = await db.query.boardGame.findFirst({
+    where: (boardgame, { eq }) => eq(boardgame.id, parseInt(selectedId, 10)),
+  });
+
+  if (!boardGame) {
+    throw new Error(`No board game found with id ${selectedId}`);
+  }
 
   return (
     <div>
@@ -19,12 +32,16 @@ export function SelectedBoardGame({ boardGame }: { boardGame: BoardGame }) {
           <Button variant="outline" className="text-black">
             <SignInButton
               mode="modal"
-              forceRedirectUrl={`${pathname}?${params.toString()}`}
+              forceRedirectUrl={`/search?${params.toString()}`}
             />
           </Button>
         </SignedOut>
         <SignedIn>
-          <Button variant="outline" content="Add to collection" />
+          <div className="flex justify-center">
+            <Button variant="outline" className="text-black" disabled>
+              Add to collection
+            </Button>
+          </div>
         </SignedIn>
       </div>
     </div>

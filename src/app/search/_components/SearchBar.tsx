@@ -1,27 +1,32 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { type BoardGame, boardGameNameKey } from "../models";
+import { type ValidUrlQueryKeys } from "../models";
 import { useDebouncedCallback } from "use-debounce";
 import { Command, CommandInput } from "~/components/ui/command";
 import { useState, type ChangeEventHandler } from "react";
 import { SearchResults } from "./SearchResults";
 import { type BoardGameList } from "../page";
 import { Button } from "~/components/ui/button";
-import { SelectedBoardGame } from "./SelectedBoardGame";
+import { getUrlParam, setUrlParams } from "../utils";
 
-export function SearchBar({ results }: { results: BoardGameList }) {
+export function SearchBar({
+  results,
+  children,
+}: {
+  results: BoardGameList;
+  children: React.ReactNode;
+}) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const boardGameQueryValue = searchParams.get(boardGameNameKey)?.toString();
+  const boardGameNameKey = "boardGameName" satisfies ValidUrlQueryKeys;
+  const boardGameQueryValue = getUrlParam(
+    searchParams,
+    boardGameNameKey,
+  )?.toString();
   const selectedIdFromUrlParams = searchParams.get("selected");
-  const initialSelectedBoardGame =
-    results?.find((r) => r.id.toString() == selectedIdFromUrlParams) ?? null;
-  const [selectedBoardGame, setSelectedBoardGame] = useState<BoardGame | null>(
-    initialSelectedBoardGame,
-  );
 
   const [showResults, setShowResults] = useState(
-    initialSelectedBoardGame == null,
+    selectedIdFromUrlParams == null,
   );
 
   const router = useRouter();
@@ -35,11 +40,15 @@ export function SearchBar({ results }: { results: BoardGameList }) {
 
   const onResultClick = (id: string) => {
     return () => {
-      setSelectedBoardGame(
-        results?.find((r) => r.id == parseInt(id, 10)) ?? null,
-      );
       setShowResults(false);
-      router.replace(`${pathname}?${boardGameNameKey}=${boardGameQueryValue}`);
+
+      const params = new URLSearchParams();
+      if (boardGameQueryValue) {
+        setUrlParams(params, boardGameNameKey, boardGameQueryValue);
+      }
+
+      setUrlParams(params, "selected", id);
+      router.replace(`${pathname}?${params.toString()}`);
     };
   };
 
@@ -67,7 +76,7 @@ export function SearchBar({ results }: { results: BoardGameList }) {
           </Button>
         )}
       </Command>
-      {selectedBoardGame && <SelectedBoardGame boardGame={selectedBoardGame} />}
+      {selectedIdFromUrlParams && children}
     </>
   );
 }
