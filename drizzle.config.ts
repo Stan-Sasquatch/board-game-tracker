@@ -6,5 +6,8 @@ export default {
   dbCredentials: {
     url: process.env.POSTGRES_URL!,
   },
-  tablesFilter: ["board-game-tracker_*, boardGameTracker_*"],
+  tablesFilter: [
+    `board-game-tracker_${process.env.NODE_ENV}_*`,
+    "boardGameTracker_*",
+  ],
 } satisfies Config;

@@ -4,9 +4,7 @@
 
 ## To do
 
-- [x] Deploy it (vercel)
-- [x] link to existing db on vercel
-- [] auth
-- [] development only db
-- [] sentry?
-- [x] consistent db field names
+- [] rename "author_id" to "boardGameId"
+- [] create user board game query
+- [] create user board game collection page
+- [] primary composite key on userBoardGame should not allow for duplicate inserts

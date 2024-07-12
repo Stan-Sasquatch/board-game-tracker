@@ -2,6 +2,8 @@ import { Button } from "~/components/ui/button";
 import { type BoardGameSearchParams } from "../models";
 import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 import { db } from "~/server/db";
+import { createUserBoardGame } from "../actions";
+import { SubmitButton } from "~/app/_components/SubmitButton";
 
 export async function SelectedBoardGame({
   searchParams,
@@ -11,12 +13,13 @@ export async function SelectedBoardGame({
   const selectedId = searchParams?.selected;
 
   if (!selectedId) {
-    throw new Error("No board game id found in url");
+    return null;
   }
-  const params = new URLSearchParams(searchParams);
 
+  const params = new URLSearchParams(searchParams);
+  const parsedId = parseInt(selectedId, 10);
   const boardGame = await db.query.boardGame.findFirst({
-    where: (boardgame, { eq }) => eq(boardgame.id, parseInt(selectedId, 10)),
+    where: (boardgame, { eq }) => eq(boardgame.id, parsedId),
   });
 
   if (!boardGame) {
@@ -38,9 +41,14 @@ export async function SelectedBoardGame({
         </SignedOut>
         <SignedIn>
           <div className="flex justify-center">
-            <Button variant="outline" className="text-black" disabled>
-              Add to collection
-            </Button>
+            <form
+              action={async function () {
+                "use server";
+                return await createUserBoardGame(parsedId);
+              }}
+            >
+              <SubmitButton buttonText="Add to collection" />
+            </form>
           </div>
         </SignedIn>
       </div>
