@@ -6,3 +6,4 @@
 
 - [] create user board game query
 - [] create user board game collection page
+- [] add toasts
