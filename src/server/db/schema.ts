@@ -40,17 +40,20 @@ export const userBoardGame = createTable(
   "userBoardGame",
   {
     clerkUserId: varchar("clerk_user_id", { length: 32 }).notNull(),
-    boardGameId: integer("author_id").notNull(),
+    boardGameId: integer("board_game_id").notNull(),
   },
   (table) => {
     return {
-      id: primaryKey({ columns: [table.clerkUserId, table.boardGameId] }),
+      pk: primaryKey({
+        name: "user_board_game_pk",
+        columns: [table.clerkUserId, table.boardGameId],
+      }),
     };
   },
 );
 
 export const userBoardGameRelations = relations(userBoardGame, ({ one }) => ({
-  author: one(boardGame, {
+  boardGame: one(boardGame, {
     fields: [userBoardGame.boardGameId],
     references: [boardGame.id],
   }),
