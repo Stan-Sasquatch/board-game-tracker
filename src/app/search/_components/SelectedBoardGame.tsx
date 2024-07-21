@@ -44,7 +44,8 @@ export async function SelectedBoardGame({
             <form
               action={async function () {
                 "use server";
-                return await createUserBoardGame(parsedId);
+                const { message } = await createUserBoardGame(parsedId);
+                console.log(message);
               }}
             >
               <SubmitButton buttonText="Add to collection" />
