@@ -4,10 +4,12 @@ import { boardGame, userBoardGame } from "~/server/db/schema";
 export const dynamic = "force-dynamic";
 
 export default async function Collection() {
+  const { name, id } = boardGame;
   const collection = await db
-    .select({ name: boardGame.name, id: boardGame.id })
-    .from(userBoardGame)
-    .innerJoin(boardGame, eq(boardGame.id, userBoardGame.boardGameId));
+    .select({ name, id })
+    .from(boardGame)
+    .innerJoin(userBoardGame, eq(boardGame.id, userBoardGame.boardGameId));
+
   return (
     <>
       <h1>Collection, you&apos;re logged in!</h1>
