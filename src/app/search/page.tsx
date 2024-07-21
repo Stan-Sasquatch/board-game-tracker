@@ -4,7 +4,6 @@ import { boardGameSearchParamsSchema } from "./models";
 import { boardGame } from "~/server/db/schema";
 import { sql } from "drizzle-orm";
 import { SelectedBoardGame } from "./_components/SelectedBoardGame";
-import { currentUser } from "@clerk/nextjs/server";
 
 export default async function Search({
   searchParams,
@@ -12,10 +11,7 @@ export default async function Search({
   searchParams: Record<string, string | string[] | undefined>;
 }) {
   const parsedSearchParams = boardGameSearchParamsSchema.parse(searchParams);
-  const test = await currentUser();
-  console.log(test?.id);
   const results = await GetBoardgames(parsedSearchParams);
-  console.log(parsedSearchParams?.selected);
   return (
     <div className="flex flex-col items-center justify-center p-2 sm:w-2/3 sm:p-24">
       <SearchBar results={results} key={parsedSearchParams?.selected}>
