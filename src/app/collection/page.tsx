@@ -8,7 +8,7 @@ export default async function Collection() {
   const collection = await db
     .select({ name, id })
     .from(boardGame)
-    .innerJoin(userBoardGame, eq(boardGame.id, userBoardGame.boardGameId));
+    .innerJoin(userBoardGame, eq(id, userBoardGame.boardGameId));
 
   return (
     <>
