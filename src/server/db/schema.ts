@@ -45,7 +45,7 @@ export const userBoardGame = createTable(
   (table) => {
     return {
       pk: primaryKey({
-        name: "user_board_game_pk",
+        name: `${process.env.NODE_ENV}_user_board_game_pk`,
         columns: [table.clerkUserId, table.boardGameId],
       }),
     };
