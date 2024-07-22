@@ -6,3 +6,4 @@
 
 - [] add toasts
 - [] center selected boardgame name text
+- [] prevent caching of collection page
