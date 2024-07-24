@@ -2,8 +2,7 @@ import { Button } from "~/components/ui/button";
 import { type BoardGameSearchParams } from "../models";
 import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 import { db } from "~/server/db";
-import { createUserBoardGame } from "../actions";
-import { SubmitButton } from "~/app/_components/SubmitButton";
+import { CreateUserBoardGame } from "./CreateUserBoardGame";
 
 export async function SelectedBoardGame({
   searchParams,
@@ -40,17 +39,7 @@ export async function SelectedBoardGame({
           </Button>
         </SignedOut>
         <SignedIn>
-          <div className="flex justify-center">
-            <form
-              action={async function () {
-                "use server";
-                const { message } = await createUserBoardGame(parsedId);
-                console.log(message);
-              }}
-            >
-              <SubmitButton buttonText="Add to collection" />
-            </form>
-          </div>
+          <CreateUserBoardGame parsedId={parsedId} />
         </SignedIn>
       </div>
     </div>

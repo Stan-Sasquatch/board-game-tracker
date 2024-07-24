@@ -1,3 +1,4 @@
+"use server";
 import { currentUser } from "@clerk/nextjs/server";
 import { db } from "~/server/db";
 import { userBoardGame } from "~/server/db/schema";
