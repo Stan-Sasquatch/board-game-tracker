@@ -1,15 +1,17 @@
-import { eq } from "drizzle-orm/sql";
-import { Button } from "~/components/ui/button";
+import { asc, desc, eq } from "drizzle-orm/sql";
 import { db } from "~/server/db";
 import { boardGame, userBoardGame } from "~/server/db/schema";
 import { RemoveUserBoardGameButton } from "./RemoveUserBoardGameButton";
+import { UpdatePlayCountButton } from "./UpdatePlayCountButton";
 
 export default async function Collection() {
   const { name, id } = boardGame;
+  const { playCount } = userBoardGame;
   const collection = await db
-    .select({ name, id })
+    .select({ name, id, playCount })
     .from(boardGame)
-    .innerJoin(userBoardGame, eq(id, userBoardGame.boardGameId));
+    .innerJoin(userBoardGame, eq(id, userBoardGame.boardGameId))
+    .orderBy(desc(userBoardGame.playCount), asc(boardGame.name));
 
   return (
     <div>
@@ -23,6 +25,7 @@ export default async function Collection() {
             <th colSpan={2} className="border-b-2 border-gray-300 px-4 py-2">
               Actions
             </th>
+            <th className="border-b-2 border-gray-300 px-4 py-2">Play Count</th>
           </tr>
         </thead>
         <tbody>
@@ -32,10 +35,16 @@ export default async function Collection() {
                 {bg.name}
               </td>
               <td className="block border-b border-gray-300 px-4 py-2 sm:table-cell">
-                <div className="flex justify-between sm:flex sm:justify-between sm:gap-4 ">
-                  <Button variant="default">Add Play</Button>
-                  <RemoveUserBoardGameButton boardGameId={bg.id} />
-                </div>
+                <UpdatePlayCountButton
+                  boardGameId={bg.id}
+                  currentCount={bg.playCount}
+                />
+              </td>
+              <td className="block border-b border-gray-300 px-4 py-2 sm:table-cell">
+                <RemoveUserBoardGameButton boardGameId={bg.id} />
+              </td>
+              <td className="block border-b border-gray-300 px-4 py-2 sm:table-cell">
+                {bg.playCount}
               </td>
             </tr>
           ))}
