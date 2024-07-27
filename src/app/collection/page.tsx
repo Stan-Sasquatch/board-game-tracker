@@ -2,7 +2,7 @@ import { eq } from "drizzle-orm/sql";
 import { Button } from "~/components/ui/button";
 import { db } from "~/server/db";
 import { boardGame, userBoardGame } from "~/server/db/schema";
-export const dynamic = "force-dynamic";
+import { RemoveUserBoardGameButton } from "./RemoveUserBoardGameButton";
 
 export default async function Collection() {
   const { name, id } = boardGame;
@@ -13,7 +13,7 @@ export default async function Collection() {
 
   return (
     <div>
-      <h1 className="mb-4 text-center text-2xl  font-bold">
+      <h1 className="mb-4 text-center text-2xl font-bold">
         Collection, you&apos;re logged in!
       </h1>
       <table className="min-w-full rounded-lg bg-white text-black shadow-md">
@@ -34,7 +34,7 @@ export default async function Collection() {
               <td className="block border-b border-gray-300 px-4 py-2 sm:table-cell">
                 <div className="flex justify-between sm:flex sm:justify-between sm:gap-4 ">
                   <Button variant="default">Add Play</Button>
-                  <Button variant="destructive">Remove</Button>
+                  <RemoveUserBoardGameButton boardGameId={bg.id} />
                 </div>
               </td>
             </tr>

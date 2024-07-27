@@ -3,6 +3,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import { db } from "~/server/db";
 import { userBoardGame } from "~/server/db/schema";
 import { and, eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 
 export async function createUserBoardGame(boardGameId: number) {
   const clerkUserId = (await currentUser())?.id;
@@ -35,6 +36,8 @@ export async function createUserBoardGame(boardGameId: number) {
     boardGameId,
     clerkUserId,
   });
+
+  revalidatePath("/collection");
 
   return {
     success: true,
