@@ -4,5 +4,5 @@
 
 ## To do
 
--[] mobile styling of collection page
 -[] use optimistic on update count
+-[] ordering of collection on front-end
