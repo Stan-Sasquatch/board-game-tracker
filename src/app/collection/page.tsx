@@ -15,20 +15,19 @@ export default async function Collection() {
 
   return (
     <div>
-      <div className="grid grid-cols-1 gap-4 text-black">
-        <div className="bg-gray-200 font-bold">
-          <h1 className="mb-4 text-center text-2xl font-bold">Collection</h1>
-          <div className="hidden sm:grid sm:grid-cols-4">
-            <div className="px-4 py-2">Name</div>
-            <div className="px-4 py-2">Update Play Count</div>
-            <div className="px-4 py-2">Remove</div>
-            <div className="px-4 py-2">Play Count</div>
-          </div>
+      <h1 className="mb-4 pt-2 text-center text-2xl font-bold">
+        Collection, you&apos;re logged in!
+      </h1>
+      <div className="grid grid-cols-1 gap-4 text-black sm:px-4 sm:py-4">
+        <div className="hidden justify-items-center rounded-lg bg-gray-200 font-bold sm:grid sm:grid-cols-4">
+          <div className="px-4 py-2">Name</div>
+          <div className="px-4 py-2">Play Count</div>
+          <div className="col-span-2 px-4 py-2">Actions </div>
         </div>
         {collection.map((bg) => (
           <div
             key={bg.id}
-            className="grid grid-cols-2 gap-2 bg-gray-400 even:bg-gray-100 sm:grid-cols-4"
+            className="grid grid-cols-2 justify-items-center rounded-lg bg-gray-400 even:bg-gray-100 sm:grid-cols-4"
           >
             <div className="col-span-2 px-4 py-2 sm:col-span-1">{bg.name}</div>
             <div className="px-4 py-2 sm:hidden">Plays:</div>
