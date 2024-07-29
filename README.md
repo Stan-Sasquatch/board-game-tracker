@@ -5,3 +5,4 @@
 ## To do
 
 -[] mobile styling of collection page
+-[] use optimistic on update count

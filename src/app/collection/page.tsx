@@ -15,41 +15,36 @@ export default async function Collection() {
 
   return (
     <div>
-      <h1 className="mb-4 text-center text-2xl font-bold">
-        Collection, you&apos;re logged in!
-      </h1>
-      <table className="min-w-full rounded-lg bg-white text-black shadow-md">
-        <thead className="hidden sm:table-header-group">
-          <tr className="bg-gray-200">
-            <th className="border-b-2 border-gray-300 px-4 py-2">Name</th>
-            <th colSpan={2} className="border-b-2 border-gray-300 px-4 py-2">
-              Actions
-            </th>
-            <th className="border-b-2 border-gray-300 px-4 py-2">Play Count</th>
-          </tr>
-        </thead>
-        <tbody>
-          {collection.map((bg) => (
-            <tr key={bg.id} className="even:bg-gray-100">
-              <td className="block border-b border-gray-300 px-4 py-2 sm:table-cell">
-                {bg.name}
-              </td>
-              <td className="block border-b border-gray-300 px-4 py-2 sm:table-cell">
-                <UpdatePlayCountButton
-                  boardGameId={bg.id}
-                  currentCount={bg.playCount}
-                />
-              </td>
-              <td className="block border-b border-gray-300 px-4 py-2 sm:table-cell">
-                <RemoveUserBoardGameButton boardGameId={bg.id} />
-              </td>
-              <td className="block border-b border-gray-300 px-4 py-2 sm:table-cell">
-                {bg.playCount}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="grid grid-cols-1 gap-4 text-black">
+        <div className="bg-gray-200 font-bold">
+          <h1 className="mb-4 text-center text-2xl font-bold">Collection</h1>
+          <div className="hidden sm:grid sm:grid-cols-4">
+            <div className="px-4 py-2">Name</div>
+            <div className="px-4 py-2">Update Play Count</div>
+            <div className="px-4 py-2">Remove</div>
+            <div className="px-4 py-2">Play Count</div>
+          </div>
+        </div>
+        {collection.map((bg) => (
+          <div
+            key={bg.id}
+            className="grid grid-cols-2 gap-2 bg-gray-400 even:bg-gray-100 sm:grid-cols-4"
+          >
+            <div className="col-span-2 px-4 py-2 sm:col-span-1">{bg.name}</div>
+            <div className="px-4 py-2 sm:hidden">Plays:</div>
+            <div className="px-4 py-2">{bg.playCount}</div>
+            <div className="px-4 py-2">
+              <UpdatePlayCountButton
+                boardGameId={bg.id}
+                currentCount={bg.playCount}
+              />
+            </div>
+            <div className="px-4 py-2">
+              <RemoveUserBoardGameButton boardGameId={bg.id} />
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
