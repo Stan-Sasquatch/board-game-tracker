@@ -45,6 +45,8 @@ async function GetBoardgames(
     return rankedResult;
   }
 
+  // boardgames without a rank have value zero on boardgame geek so we do the same
+  // we sort by rank but exclude 0 unless we have less than 10 results as we want the rank zeros last not first
   const unrankedResult = await db
     .select()
     .from(boardGame)
