@@ -1,6 +1,6 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { type ValidUrlQueryKeys } from "../models";
+import { type SearchPageQueryKeys } from "../models";
 import { useDebouncedCallback } from "use-debounce";
 import { Command, CommandInput } from "~/components/ui/command";
 import { useState, type ChangeEventHandler } from "react";
@@ -18,7 +18,7 @@ export function SearchBar({
 }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const boardGameNameKey = "boardGameName" satisfies ValidUrlQueryKeys;
+  const boardGameNameKey = "boardGameName" satisfies SearchPageQueryKeys;
   const boardGameQueryValue = getUrlParam(
     searchParams,
     boardGameNameKey,
