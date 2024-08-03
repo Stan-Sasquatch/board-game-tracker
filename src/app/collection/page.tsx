@@ -27,7 +27,7 @@ export default async function Collection() {
         {collection.map((bg) => (
           <div
             key={bg.id}
-            className="grid grid-cols-2 justify-items-center rounded-lg bg-gray-400 even:bg-gray-100 sm:grid-cols-4"
+            className="grid grid-cols-2 items-center justify-items-center rounded-lg bg-gray-400 even:bg-gray-100 sm:grid-cols-4"
           >
             <div className="col-span-2 px-4 py-2 sm:col-span-1">{bg.name}</div>
             <div className="px-4 py-2 sm:hidden">Plays:</div>
