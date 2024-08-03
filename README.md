@@ -6,3 +6,4 @@
 
 -[] use optimistic on update count
 -[] ordering of collection on front-end
+-[] tidy url params helpers and models
