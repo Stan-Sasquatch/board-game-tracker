@@ -12,10 +12,12 @@ export function SortIcon({
   orderBy,
   direction,
   field,
+  color,
 }: {
   orderBy: "name" | "playCount" | undefined;
   direction: "asc" | "desc" | undefined;
   field: "name" | "playCount";
+  color?: string;
 }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -32,7 +34,7 @@ export function SortIcon({
       PushQuery();
     }
 
-    return <ArrowUpDown onClick={onUpDownClick} />;
+    return <ArrowUpDown onClick={onUpDownClick} color={color} />;
   }
 
   if (direction === "asc") {
@@ -42,7 +44,7 @@ export function SortIcon({
       PushQuery();
     }
 
-    return <ArrowUpWideNarrow onClick={onUpClick} />;
+    return <ArrowUpWideNarrow onClick={onUpClick} color={color} />;
   }
 
   function onDownClick() {
@@ -51,5 +53,5 @@ export function SortIcon({
     PushQuery();
   }
 
-  return <ArrowDownWideNarrow onClick={onDownClick} />;
+  return <ArrowDownWideNarrow onClick={onDownClick} color={color} />;
 }

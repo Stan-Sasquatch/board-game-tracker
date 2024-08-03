@@ -63,6 +63,26 @@ export default async function Collection({
           </div>
           <div className="col-span-2 px-4 py-2">Actions </div>
         </div>
+        <div className="flex justify-around sm:hidden">
+          <div className="flex text-white">
+            Name
+            <SortIcon
+              orderBy={parsedSearchParams?.orderBy}
+              direction={parsedSearchParams?.direction}
+              field={"name"}
+              color={"#ffffff"}
+            />
+          </div>
+          <div className="flex text-white">
+            Play Count
+            <SortIcon
+              orderBy={parsedSearchParams?.orderBy}
+              direction={parsedSearchParams?.direction}
+              field={"playCount"}
+              color={"#ffffff"}
+            />
+          </div>
+        </div>
         {collection.map((bg) => (
           <div
             key={bg.id}
