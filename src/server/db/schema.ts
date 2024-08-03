@@ -25,6 +25,7 @@ export const boardGame = createSharedTable(
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
+    rank: integer("rank"),
     updatedAt: timestamp("updated_at"),
   },
   (example) => ({
