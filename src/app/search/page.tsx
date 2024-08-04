@@ -1,7 +1,7 @@
 import { SearchBar } from "./_components/SearchBar";
 import { db } from "~/server/db";
 import { boardGameSearchParamsSchema } from "./models";
-import { boardGame } from "~/server/db/schema";
+import { boardGame } from "~/server/db/schema/boardGame";
 import { sql, and, gt, asc, eq } from "drizzle-orm";
 import { SelectedBoardGame } from "./_components/SelectedBoardGame";
 

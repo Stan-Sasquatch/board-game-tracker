@@ -1,6 +1,6 @@
 import { max } from "drizzle-orm";
 import { db } from "~/server/db";
-import { boardGame } from "~/server/db/schema";
+import { boardGame } from "~/server/db/schema/boardGame";
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {

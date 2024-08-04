@@ -1,6 +1,6 @@
 import { type InferSelectModel } from "drizzle-orm";
 import { z } from "zod";
-import { type boardGame } from "~/server/db/schema";
+import { type boardGame } from "~/server/db/schema/boardGame";
 export type SearchPageQueryKeys = keyof Exclude<
   BoardGameSearchParams,
   undefined

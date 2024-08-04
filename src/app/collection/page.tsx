@@ -1,6 +1,7 @@
 import { asc, desc, eq } from "drizzle-orm/sql";
 import { db } from "~/server/db";
-import { boardGame, userBoardGame } from "~/server/db/schema";
+import { boardGame } from "~/server/db/schema/boardGame";
+import { userBoardGame } from "~/server/db/schema/userBoardGame";
 import { RemoveUserBoardGameButton } from "./RemoveUserBoardGameButton";
 import { UpdatePlayCountButton } from "./UpdatePlayCountButton";
 import { collectionOrderBySearchParams } from "./models";
