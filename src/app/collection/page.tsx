@@ -1,4 +1,4 @@
-import { asc, desc, eq } from "drizzle-orm/sql";
+import { and, asc, desc, eq, sql } from "drizzle-orm/sql";
 import { db } from "~/server/db";
 import { boardGame } from "~/server/db/schema/boardGame";
 import { userBoardGame } from "~/server/db/schema/userBoardGame";
@@ -6,6 +6,8 @@ import { RemoveUserBoardGameButton } from "./RemoveUserBoardGameButton";
 import { AddPlayModal } from "./AddPlayModal";
 import { collectionOrderBySearchParams } from "./models";
 import { SortIcon } from "./_components/SortIcon";
+import { userBoardGamePlay } from "~/server/db/schema/userBoardGamePlay";
+import { currentUser } from "@clerk/nextjs/server";
 
 export default async function Collection({
   searchParams,
@@ -14,8 +16,11 @@ export default async function Collection({
 }) {
   const parsedSearchParams = collectionOrderBySearchParams.parse(searchParams);
 
-  const { name, id } = boardGame;
-  const { playCount } = userBoardGame;
+  const clerkUserId = (await currentUser())?.id;
+
+  if (!clerkUserId) {
+    throw new Error("Can't get current user");
+  }
 
   function getOrderBy() {
     if (!parsedSearchParams?.direction || !parsedSearchParams?.orderBy) {
@@ -29,14 +34,24 @@ export default async function Collection({
     }
 
     return direction === "asc"
-      ? asc(userBoardGame.playCount)
-      : desc(userBoardGame.playCount);
+      ? sql`cast(count(${userBoardGamePlay.id}) as integer) ASC`
+      : sql`cast(count(${userBoardGamePlay.id}) as integer) DESC`;
   }
 
   const collection = await db
-    .select({ name, id, playCount })
+    .select({
+      id: boardGame.id,
+      name: boardGame.name,
+      playCount: sql<number>`cast(count(${userBoardGamePlay.id}) as integer)`,
+    })
     .from(boardGame)
-    .innerJoin(userBoardGame, eq(id, userBoardGame.boardGameId))
+    .innerJoin(userBoardGame, eq(boardGame.id, userBoardGame.boardGameId))
+    .leftJoin(
+      userBoardGamePlay,
+      eq(userBoardGame.boardGameId, userBoardGamePlay.boardGameId),
+    )
+    .where(eq(userBoardGame.clerkUserId, clerkUserId))
+    .groupBy(boardGame.id)
     .orderBy(getOrderBy());
 
   return (

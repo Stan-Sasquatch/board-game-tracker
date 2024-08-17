@@ -8,7 +8,6 @@ export const userBoardGame = createTable(
   {
     clerkUserId: varchar("clerk_user_id", { length: 32 }).notNull(),
     boardGameId: integer("board_game_id").notNull(),
-    playCount: integer("playCount").default(0).notNull(),
   },
   (table) => {
     return {

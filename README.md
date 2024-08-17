@@ -4,6 +4,5 @@
 
 ## To do
 
--[] use optimistic on update count
--[] ordering of collection on front-end
 -[] tidy url params helpers and models
+-[] close modal on new bg play submit (need to migrate to use controlled dialog component)

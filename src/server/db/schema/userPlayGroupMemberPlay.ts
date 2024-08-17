@@ -1,9 +1,9 @@
 import { integer, primaryKey } from "drizzle-orm/pg-core";
-import { createSharedTable } from "../utils";
+import { createTable } from "../utils";
 import { userPlayGroupMember } from "./userPlayGroupMember";
 import { userBoardGamePlay } from "./userBoardGamePlay";
 
-export const userPlayGroupMemberPlay = createSharedTable(
+export const userPlayGroupMemberPlay = createTable(
   "userPlayGroupMemberPlay",
   {
     playerId: integer("player_id")
