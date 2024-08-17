@@ -80,40 +80,38 @@ export function AddPlayModal({
                 done.
               </DialogDescription>
             </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <h3>Date of play</h3>
+            <div className="grid gap-4 px-2 py-4">
+              <h3 className="font-semibold">Date of play</h3>
               <DatePicker
                 setDate={dateOfPlay.onChange}
                 date={dateOfPlay.value}
               />
-              <div>{errors?.dateOfPlay?.message}</div>
-              <div>
-                {userBoardGamePlayGroupMembers.length > 0 && (
-                  <>
-                    <h3>
-                      Add players from your <b>playgroup</b>
-                    </h3>
-                    <MultiSelect
-                      options={playerOptions}
-                      onValueChange={players.onChange}
-                      defaultValue={players.value}
-                      placeholder="Select players"
-                      variant="inverted"
-                      maxCount={3}
-                    />
-                    <div>{errors?.players?.message}</div>
-                  </>
-                )}
-              </div>
-              <div>
-                <AddPlayGroupMembers
-                  onNewPlayersChange={newPlayers.onChange}
-                  newPlayGroupMembers={newPlayers.value}
-                />
-              </div>
+              {errors?.dateOfPlay?.message && (
+                <div>{errors?.dateOfPlay?.message}</div>
+              )}
+              {userBoardGamePlayGroupMembers.length > 0 && (
+                <>
+                  <h3>
+                    Add players from your <b>playgroup</b>
+                  </h3>
+                  <MultiSelect
+                    options={playerOptions}
+                    onValueChange={players.onChange}
+                    defaultValue={players.value}
+                    placeholder="Select players"
+                    variant="inverted"
+                    maxCount={3}
+                  />
+                  <div>{errors?.players?.message}</div>
+                </>
+              )}
+              <AddPlayGroupMembers
+                onNewPlayersChange={newPlayers.onChange}
+                newPlayGroupMembers={newPlayers.value}
+              />
             </div>
             <DialogFooter>
-              <Button type="submit">Save changes</Button>
+              <Button type="submit">Save</Button>
             </DialogFooter>
           </form>
         </DialogContent>

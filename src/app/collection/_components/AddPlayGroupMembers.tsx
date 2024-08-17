@@ -13,6 +13,7 @@ export function AddPlayGroupMembers({
 }) {
   function AddNewPlayer(newPlayer: NewPlayer) {
     onNewPlayersChange([...newPlayGroupMembers, newPlayer]);
+    reset();
   }
 
   function RemovePlayer(playerNickName: string) {
@@ -25,54 +26,77 @@ export function AddPlayGroupMembers({
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<NewPlayer>();
-
   return (
     <div>
-      <h3>Add new players</h3>
-      <div className="grid w-full max-w-sm items-center gap-1.5">
-        <Label htmlFor="nickname">Nickname</Label>
-        <Input
-          type="text"
-          id="nickname"
-          placeholder="Nickname"
-          required
-          {...register("nickame", {
-            required: true,
-            maxLength: 20,
-            validate: (value) =>
-              !newPlayGroupMembers.map((p) => p.nickame).includes(value) ||
-              "Nickname must be unique amongst your playgroup",
-          })}
-        />
-        {errors?.nickame?.message && (
-          <Label htmlFor="nickname">{errors?.nickame?.message}</Label>
-        )}
-        <Label htmlFor="forename">Forename</Label>
-        <Input
-          type="text"
-          id="forename"
-          placeholder="Forename"
-          {...register("forename", { maxLength: 20 })}
-        />
-        {errors?.forename?.message && (
-          <Label htmlFor="forename">{errors?.forename?.message}</Label>
-        )}
-        <Label htmlFor="surname">Surname</Label>
-        <Input
-          type="text"
-          id="surname"
-          placeholder="Surname"
-          {...(register("surname"), { maxLength: 20 })}
-        />
-        {errors?.surname?.message && (
-          <Label htmlFor="surname">{errors?.surname?.message}</Label>
-        )}
-      </div>
-      <Button type="button" onClick={handleSubmit(AddNewPlayer)}>
-        Add Player
-      </Button>
+      <h3 className="font-semibold">Add new players</h3>
       <div>
+        <div className="py-2">
+          <Label htmlFor="nickname">Nickname</Label>
+          <Input
+            type="text"
+            id="nickname"
+            placeholder="Nickname"
+            required
+            {...register("nickame", {
+              required: "Nickname is required",
+              maxLength: 20,
+              validate: (value) =>
+                !newPlayGroupMembers.map((p) => p.nickame).includes(value) ||
+                "Nickname must be unique amongst your playgroup",
+            })}
+          />
+          <Label htmlFor="nickname" className="text-red-600">
+            {errors?.nickame?.message}
+          </Label>
+        </div>
+        <div className="py-2">
+          <Label htmlFor="forename">Forename</Label>
+          <Input
+            type="text"
+            id="forename"
+            placeholder="Forename"
+            {...register("forename", {
+              maxLength: {
+                value: 20,
+                message: "Max length is 20",
+              },
+            })}
+          />
+          <Label htmlFor="forename" className="text-red-600">
+            {errors?.forename?.message}
+          </Label>
+        </div>
+        <div className="py-2">
+          <Label htmlFor="surname">Surname</Label>
+          <Input
+            type="text"
+            id="surname"
+            placeholder="Surname"
+            {...register("surname", {
+              maxLength: {
+                value: 20,
+                message: "Max length is 20",
+              },
+            })}
+          />
+          <Label htmlFor="surname" className="text-red-600">
+            {errors?.surname?.message}
+          </Label>
+        </div>
+      </div>
+      <div className="flex">
+        <Button
+          className="flex-1"
+          type="button"
+          onClick={handleSubmit(AddNewPlayer)}
+        >
+          Add Player
+        </Button>
+      </div>
+      <div>
+        <h3 className="font-semibold">New players</h3>
         <ul>
           {newPlayGroupMembers.map((pgm) => (
             <li key={pgm.nickame}>
