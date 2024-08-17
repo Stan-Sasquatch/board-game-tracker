@@ -6,6 +6,9 @@ import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { type UserBoardGamePlay } from "./models";
 import { userBoardGamePlay } from "~/server/db/schema/userBoardGamePlay";
+import { type CreatePlayModel } from "./AddPlayModal";
+import { userPlayGroupMember } from "~/server/db/schema/userPlayGroupMember";
+import { userPlayGroupMemberPlay } from "~/server/db/schema/userPlayGroupMemberPlay";
 
 export async function DeleteUserBoardGame(boardGameId: number) {
   const clerkUserId = (await currentUser())?.id;
@@ -49,16 +52,67 @@ export async function UpdateUserBoardGamePlayCount(
   revalidatePath("/collection");
 }
 
-export async function CreateUserBoardGamePlay({
-  model,
-}: {
-  model: Omit<UserBoardGamePlay, "clerkUserId">;
-}) {
-  const clerkUserId = (await currentUser())?.id;
+export async function CreateUserBoardGamePlay(
+  model: CreatePlayModel,
+  boardGameId: number,
+) {
+  const boardGameOwnerId = (await currentUser())?.id;
 
-  if (!clerkUserId) {
+  if (!boardGameOwnerId) {
     throw new Error("Can't find user id for logged in user");
   }
+  const insertModel: UserBoardGamePlay = {
+    boardGameOwnerId,
+    boardGameId,
+    dateOfPlay: model.dateOfPlay,
+  };
+  const [userBoardGamePlayResult] = await db
+    .insert(userBoardGamePlay)
+    .values(insertModel)
+    .returning({ insertedId: userBoardGamePlay.id });
 
-  await db.insert(userBoardGamePlay).values({ ...model, clerkUserId });
+  const playId = userBoardGamePlayResult?.insertedId;
+
+  if (!playId) {
+    throw new Error("Inserting userBoardGamePlay did not return an id");
+  }
+
+  console.log(model.newPlayers);
+
+  if (model.newPlayers.length > 0) {
+    for (const p of model.newPlayers) {
+      const { nickname, forename, surname } = p;
+      const [userPlayGroupMemberResult] = await db
+        .insert(userPlayGroupMember)
+        .values({
+          playGroupOwnerClerkUserId: boardGameOwnerId,
+          nickname,
+          forename,
+          surname,
+        })
+        .returning({ insertedId: userPlayGroupMember.id });
+
+      const playerId = userPlayGroupMemberResult?.insertedId;
+
+      if (!playerId) {
+        throw new Error("Inserting userPlayGroupMember did not return an id");
+      }
+
+      await db.insert(userPlayGroupMemberPlay).values({
+        playId,
+        playerId,
+      });
+    }
+  }
+
+  if (model.players.length > 0) {
+    for (const playerId of model.players.map(Number)) {
+      await db.insert(userPlayGroupMemberPlay).values({
+        playId,
+        playerId,
+      });
+    }
+  }
+
+  revalidatePath("/collection");
 }

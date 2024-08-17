@@ -20,23 +20,26 @@ import { DatePicker } from "~/components/ui/date-picker";
 import { MultiSelect } from "~/components/ui/multi-select";
 import { AddPlayGroupMembers } from "./_components/AddPlayGroupMembers";
 import { ChevronUp } from "lucide-react";
+import { CreateUserBoardGamePlay } from "./actions";
 
 export type NewPlayer = {
-  nickame: string;
+  nickname: string;
   forename?: string;
   surname?: string;
 };
 
-type CreatePlayModel = {
+export type CreatePlayModel = {
   dateOfPlay: Date;
   players: string[];
   newPlayers: NewPlayer[];
 };
 
 export function AddPlayModal({
+  boardGameId,
   userBoardGamePlayGroupMembers,
 }: {
-  userBoardGamePlayGroupMembers: { name: string; id: string }[];
+  boardGameId: number;
+  userBoardGamePlayGroupMembers: { nickname: string; id: string }[];
 }) {
   const {
     control,
@@ -67,7 +70,7 @@ export function AddPlayModal({
   });
 
   const playerOptions = userBoardGamePlayGroupMembers.map((u) => ({
-    label: u.name,
+    label: u.nickname,
     value: u.id,
   }));
 
@@ -78,7 +81,11 @@ export function AddPlayModal({
           <Button variant="default">Add Play</Button>
         </DialogTrigger>
         <DialogContent className="grid gap-4 px-4 py-4 sm:max-w-[425px]">
-          <form onSubmit={handleSubmit((data) => console.log(data))}>
+          <form
+            onSubmit={handleSubmit((data) =>
+              CreateUserBoardGamePlay(data, boardGameId),
+            )}
+          >
             <DialogHeader>
               <DialogTitle>Log a play</DialogTitle>
               <DialogDescription>
@@ -124,6 +131,9 @@ export function AddPlayModal({
                       </>
                     )}
                     <AddPlayGroupMembers
+                      existingNicknames={userBoardGamePlayGroupMembers.map(
+                        (pgm) => pgm.nickname,
+                      )}
                       onNewPlayersChange={newPlayers.onChange}
                       newPlayGroupMembers={newPlayers.value}
                     />

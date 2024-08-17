@@ -93,7 +93,10 @@ export default async function Collection({
             <div className="px-4 py-2 sm:hidden">Plays:</div>
             <div className="px-4 py-2">{bg.playCount}</div>
             <div className="px-4 py-2">
-              <AddPlayModal userBoardGamePlayGroupMembers={[]} />
+              <AddPlayModal
+                userBoardGamePlayGroupMembers={[]}
+                boardGameId={bg.id}
+              />
             </div>
             <div className="px-4 py-2">
               <RemoveUserBoardGameButton boardGameId={bg.id} />

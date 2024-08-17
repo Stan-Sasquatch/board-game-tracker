@@ -7,9 +7,11 @@ import { useForm } from "react-hook-form";
 export function AddPlayGroupMembers({
   newPlayGroupMembers,
   onNewPlayersChange,
+  existingNicknames,
 }: {
   newPlayGroupMembers: NewPlayer[];
   onNewPlayersChange: (newList: NewPlayer[]) => void;
+  existingNicknames: string[];
 }) {
   function AddNewPlayer(newPlayer: NewPlayer) {
     onNewPlayersChange([...newPlayGroupMembers, newPlayer]);
@@ -18,7 +20,7 @@ export function AddPlayGroupMembers({
 
   function RemovePlayer(playerNickName: string) {
     onNewPlayersChange(
-      newPlayGroupMembers.filter((pgm) => pgm.nickame != playerNickName),
+      newPlayGroupMembers.filter((pgm) => pgm.nickname != playerNickName),
     );
   }
 
@@ -38,16 +40,19 @@ export function AddPlayGroupMembers({
             id="nickname"
             placeholder="Nickname"
             required
-            {...register("nickame", {
+            {...register("nickname", {
               required: "Nickname is required",
               maxLength: 20,
               validate: (value) =>
-                !newPlayGroupMembers.map((p) => p.nickame).includes(value) ||
+                !newPlayGroupMembers
+                  .map((p) => p.nickname)
+                  .concat(existingNicknames)
+                  .includes(value) ||
                 "Nickname must be unique amongst your playgroup",
             })}
           />
           <Label htmlFor="nickname" className="text-red-600">
-            {errors?.nickame?.message}
+            {errors?.nickname?.message}
           </Label>
         </div>
         <div className="py-2">
@@ -99,11 +104,11 @@ export function AddPlayGroupMembers({
           <h3 className="font-semibold">New players</h3>
           <ul>
             {newPlayGroupMembers.map((pgm) => (
-              <li key={pgm.nickame}>
-                <span>{pgm.nickame}</span>
+              <li key={pgm.nickname}>
+                <span>{pgm.nickname}</span>
                 <Button
                   variant={"destructive"}
-                  onClick={() => RemovePlayer(pgm.nickame)}
+                  onClick={() => RemovePlayer(pgm.nickname)}
                 >
                   Remove
                 </Button>
