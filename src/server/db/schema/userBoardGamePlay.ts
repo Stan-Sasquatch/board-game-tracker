@@ -1,6 +1,7 @@
 import {
   foreignKey,
   integer,
+  interval,
   serial,
   timestamp,
   varchar,
@@ -15,6 +16,7 @@ export const userBoardGamePlay = createTable(
     clerkUserId: varchar("clerk_user_id", { length: 32 }).notNull(),
     boardGameId: integer("board_game_id").notNull(),
     dateOfPlay: timestamp("date_of_play"),
+    duration: interval("duration", { fields: "hour to second" }),
   },
   (table) => {
     return {

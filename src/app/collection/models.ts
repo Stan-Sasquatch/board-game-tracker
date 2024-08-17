@@ -1,4 +1,6 @@
+import { type InferInsertModel } from "drizzle-orm";
 import { z } from "zod";
+import { type userBoardGamePlay } from "~/server/db/schema/userBoardGamePlay";
 
 export type CollectionQueryKeys = keyof Exclude<
   CollectionOrderBySearchParams,
@@ -14,3 +16,5 @@ export const collectionOrderBySearchParams = z
 export type CollectionOrderBySearchParams = z.infer<
   typeof collectionOrderBySearchParams
 >;
+
+export type UserBoardGamePlay = InferInsertModel<typeof userBoardGamePlay>;

@@ -3,7 +3,7 @@ import { db } from "~/server/db";
 import { boardGame } from "~/server/db/schema/boardGame";
 import { userBoardGame } from "~/server/db/schema/userBoardGame";
 import { RemoveUserBoardGameButton } from "./RemoveUserBoardGameButton";
-import { UpdatePlayCountButton } from "./UpdatePlayCountButton";
+import { AddPlayModal } from "./AddPlayModal";
 import { collectionOrderBySearchParams } from "./models";
 import { SortIcon } from "./_components/SortIcon";
 
@@ -93,10 +93,7 @@ export default async function Collection({
             <div className="px-4 py-2 sm:hidden">Plays:</div>
             <div className="px-4 py-2">{bg.playCount}</div>
             <div className="px-4 py-2">
-              <UpdatePlayCountButton
-                boardGameId={bg.id}
-                currentCount={bg.playCount}
-              />
+              <AddPlayModal userBoardGamePlayGroupMembers={[]} />
             </div>
             <div className="px-4 py-2">
               <RemoveUserBoardGameButton boardGameId={bg.id} />

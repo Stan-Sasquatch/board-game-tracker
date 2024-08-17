@@ -2,7 +2,7 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { type SearchPageQueryKeys } from "../models";
 import { useDebouncedCallback } from "use-debounce";
-import { Command, CommandInput } from "~/components/ui/command";
+import { Command, ControlledCommandInput } from "~/components/ui/command";
 import { useState, type ChangeEventHandler } from "react";
 import { SearchResults } from "./SearchResults";
 import { type BoardGameList } from "../page";
@@ -59,7 +59,7 @@ export function SearchBar({
   return (
     <>
       <Command className={"w-72 sm:w-96"}>
-        <CommandInput
+        <ControlledCommandInput
           placeholder="Search"
           defaultValue={boardGameQueryValue}
           onChange={debouncedOnChange}
