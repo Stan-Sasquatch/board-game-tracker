@@ -9,11 +9,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "~/components/ui/collapsible";
 
 import { useForm, useController } from "react-hook-form";
 import { DatePicker } from "~/components/ui/date-picker";
 import { MultiSelect } from "~/components/ui/multi-select";
 import { AddPlayGroupMembers } from "./_components/AddPlayGroupMembers";
+import { ChevronUp } from "lucide-react";
 
 export type NewPlayer = {
   nickame: string;
@@ -89,26 +95,41 @@ export function AddPlayModal({
               {errors?.dateOfPlay?.message && (
                 <div>{errors?.dateOfPlay?.message}</div>
               )}
-              {userBoardGamePlayGroupMembers.length > 0 && (
-                <>
-                  <h3>
-                    Add players from your <b>playgroup</b>
-                  </h3>
-                  <MultiSelect
-                    options={playerOptions}
-                    onValueChange={players.onChange}
-                    defaultValue={players.value}
-                    placeholder="Select players"
-                    variant="inverted"
-                    maxCount={3}
-                  />
-                  <div>{errors?.players?.message}</div>
-                </>
-              )}
-              <AddPlayGroupMembers
-                onNewPlayersChange={newPlayers.onChange}
-                newPlayGroupMembers={newPlayers.value}
-              />
+
+              <Collapsible>
+                <div className="flex">
+                  <h3 className="self-center font-semibold">Add new players</h3>
+                  <CollapsibleTrigger className="px-2">
+                    <Button type="button" size="sm" variant="outline">
+                      <ChevronUp className="h-4 w-4" />
+                    </Button>
+                  </CollapsibleTrigger>
+                </div>
+                <CollapsibleContent>
+                  <>
+                    {userBoardGamePlayGroupMembers.length > 0 && (
+                      <>
+                        <h3>
+                          Add players from your <b>playgroup</b>
+                        </h3>
+                        <MultiSelect
+                          options={playerOptions}
+                          onValueChange={players.onChange}
+                          defaultValue={players.value}
+                          placeholder="Select players"
+                          variant="inverted"
+                          maxCount={3}
+                        />
+                        <div>{errors?.players?.message}</div>
+                      </>
+                    )}
+                    <AddPlayGroupMembers
+                      onNewPlayersChange={newPlayers.onChange}
+                      newPlayGroupMembers={newPlayers.value}
+                    />
+                  </>
+                </CollapsibleContent>
+              </Collapsible>
             </div>
             <DialogFooter className="px-2 py-4">
               <Button type="submit">Save</Button>

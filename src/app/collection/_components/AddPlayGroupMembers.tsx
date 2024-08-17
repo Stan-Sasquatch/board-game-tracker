@@ -30,7 +30,6 @@ export function AddPlayGroupMembers({
   } = useForm<NewPlayer>();
   return (
     <div>
-      <h3 className="font-semibold">Add new players</h3>
       <div>
         <div className="py-2">
           <Label htmlFor="nickname">Nickname</Label>
