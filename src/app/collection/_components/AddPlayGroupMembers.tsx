@@ -95,22 +95,24 @@ export function AddPlayGroupMembers({
           Add Player
         </Button>
       </div>
-      <div>
-        <h3 className="font-semibold">New players</h3>
-        <ul>
-          {newPlayGroupMembers.map((pgm) => (
-            <li key={pgm.nickame}>
-              <span>{pgm.nickame}</span>
-              <Button
-                variant={"destructive"}
-                onClick={() => RemovePlayer(pgm.nickame)}
-              >
-                Remove
-              </Button>
-            </li>
-          ))}
-        </ul>
-      </div>
+      {newPlayGroupMembers.length > 0 && (
+        <div>
+          <h3 className="font-semibold">New players</h3>
+          <ul>
+            {newPlayGroupMembers.map((pgm) => (
+              <li key={pgm.nickame}>
+                <span>{pgm.nickame}</span>
+                <Button
+                  variant={"destructive"}
+                  onClick={() => RemovePlayer(pgm.nickame)}
+                >
+                  Remove
+                </Button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }

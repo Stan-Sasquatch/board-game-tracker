@@ -71,7 +71,7 @@ export function AddPlayModal({
         <DialogTrigger asChild>
           <Button variant="default">Add Play</Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="grid gap-4 px-4 py-4 sm:max-w-[425px]">
           <form onSubmit={handleSubmit((data) => console.log(data))}>
             <DialogHeader>
               <DialogTitle>Log a play</DialogTitle>
@@ -110,7 +110,7 @@ export function AddPlayModal({
                 newPlayGroupMembers={newPlayers.value}
               />
             </div>
-            <DialogFooter>
+            <DialogFooter className="px-2 py-4">
               <Button type="submit">Save</Button>
             </DialogFooter>
           </form>
