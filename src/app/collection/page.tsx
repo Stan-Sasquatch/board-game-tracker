@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, sql } from "drizzle-orm/sql";
+import { asc, desc, eq, sql } from "drizzle-orm/sql";
 import { db } from "~/server/db";
 import { boardGame } from "~/server/db/schema/boardGame";
 import { userBoardGame } from "~/server/db/schema/userBoardGame";
@@ -8,6 +8,8 @@ import { collectionOrderBySearchParams } from "./models";
 import { SortIcon } from "./_components/SortIcon";
 import { userBoardGamePlay } from "~/server/db/schema/userBoardGamePlay";
 import { currentUser } from "@clerk/nextjs/server";
+import { userPlayGroupMemberPlay } from "~/server/db/schema/userPlayGroupMemberPlay";
+import { userPlayGroupMember } from "~/server/db/schema/userPlayGroupMember";
 
 export default async function Collection({
   searchParams,
@@ -42,13 +44,24 @@ export default async function Collection({
     .select({
       id: boardGame.id,
       name: boardGame.name,
-      playCount: sql<number>`cast(count(${userBoardGamePlay.id}) as integer)`,
+      playCount: sql<number>`cast(count(distinct ${userBoardGamePlay.id}) as integer)`,
+      players: sql<
+        string[]
+      >`array_agg(distinct ${userPlayGroupMember.nickname})`,
     })
     .from(boardGame)
     .innerJoin(userBoardGame, eq(boardGame.id, userBoardGame.boardGameId))
     .leftJoin(
       userBoardGamePlay,
       eq(userBoardGame.boardGameId, userBoardGamePlay.boardGameId),
+    )
+    .leftJoin(
+      userPlayGroupMemberPlay,
+      eq(userBoardGamePlay.id, userPlayGroupMemberPlay.playId),
+    )
+    .leftJoin(
+      userPlayGroupMember,
+      eq(userPlayGroupMemberPlay.playerId, userPlayGroupMember.id),
     )
     .where(eq(userBoardGame.clerkUserId, clerkUserId))
     .groupBy(boardGame.id)
