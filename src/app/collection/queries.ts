@@ -38,9 +38,6 @@ export async function GetUserBoardGameCollection(
       id: boardGame.id,
       name: boardGame.name,
       playCount: sql<number>`cast(count(distinct ${userBoardGamePlay.id}) as integer)`,
-      players: sql<
-        string[]
-      >`array_agg(distinct ${userPlayGroupMember.nickname})`,
     })
     .from(boardGame)
     .innerJoin(userBoardGame, eq(boardGame.id, userBoardGame.boardGameId))
@@ -48,16 +45,9 @@ export async function GetUserBoardGameCollection(
       userBoardGamePlay,
       eq(userBoardGame.boardGameId, userBoardGamePlay.boardGameId),
     )
-    .leftJoin(
-      userPlayGroupMemberPlay,
-      eq(userBoardGamePlay.id, userPlayGroupMemberPlay.playId),
-    )
-    .leftJoin(
-      userPlayGroupMember,
-      eq(userPlayGroupMemberPlay.playerId, userPlayGroupMember.id),
-    )
-    .where(eq(userBoardGame.clerkUserId, clerkUserId))
     .groupBy(boardGame.id)
     .orderBy(getOrderBy());
+
+  console.log(collection);
   return collection;
 }
