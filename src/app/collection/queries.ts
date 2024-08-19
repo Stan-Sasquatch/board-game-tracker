@@ -33,7 +33,7 @@ export async function GetUserBoardGameCollection(
       : sql`cast(count(${userBoardGamePlay.id}) as integer) DESC`;
   }
 
-  const collection = await db
+  return await db
     .select({
       id: boardGame.id,
       name: boardGame.name,
@@ -47,7 +47,4 @@ export async function GetUserBoardGameCollection(
     )
     .groupBy(boardGame.id)
     .orderBy(getOrderBy());
-
-  console.log(collection);
-  return collection;
 }

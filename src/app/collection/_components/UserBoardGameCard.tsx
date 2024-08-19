@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { AddPlayModal } from "./AddPlayModal";
 import { RemoveUserBoardGameButton } from "./RemoveUserBoardGameButton";
 
@@ -13,7 +14,9 @@ export function UserBoardGameCard({
     >
       <div className="col-span-2 px-4 py-2 sm:col-span-1">{boardGame.name}</div>
       <div className="px-4 py-2 sm:hidden">Plays:</div>
-      <div className="px-4 py-2">{boardGame.playCount}</div>
+      <div className="px-4 py-2">
+        <Link href={`/collection/${boardGame.id}`}>{boardGame.playCount}</Link>
+      </div>
       <div className="px-4 py-2">
         <AddPlayModal
           userBoardGamePlayGroupMembers={[]}
