@@ -6,7 +6,7 @@ import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { type UserBoardGamePlay } from "./models";
 import { userBoardGamePlay } from "~/server/db/schema/userBoardGamePlay";
-import { type CreatePlayModel } from "./AddPlayModal";
+import { type CreatePlayModel } from "./_components/AddPlayModal";
 import { userPlayGroupMember } from "~/server/db/schema/userPlayGroupMember";
 import { userPlayGroupMemberPlay } from "~/server/db/schema/userPlayGroupMemberPlay";
 

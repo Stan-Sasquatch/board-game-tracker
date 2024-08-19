@@ -18,9 +18,9 @@ import {
 import { useForm, useController } from "react-hook-form";
 import { DatePicker } from "~/components/ui/date-picker";
 import { MultiSelect } from "~/components/ui/multi-select";
-import { AddPlayGroupMembers } from "./_components/AddPlayGroupMembers";
+import { AddPlayGroupMembers } from "./AddPlayGroupMembers";
 import { ChevronUp } from "lucide-react";
-import { CreateUserBoardGamePlay } from "./actions";
+import { CreateUserBoardGamePlay } from "../actions";
 import { useTransition } from "react";
 
 export type NewPlayer = {

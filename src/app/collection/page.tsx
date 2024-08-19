@@ -1,15 +1,10 @@
-import { asc, desc, eq, sql } from "drizzle-orm/sql";
-import { db } from "~/server/db";
-import { boardGame } from "~/server/db/schema/boardGame";
-import { userBoardGame } from "~/server/db/schema/userBoardGame";
-import { RemoveUserBoardGameButton } from "./RemoveUserBoardGameButton";
-import { AddPlayModal } from "./AddPlayModal";
+import { RemoveUserBoardGameButton } from "./_components/RemoveUserBoardGameButton";
+import { AddPlayModal } from "./_components/AddPlayModal";
 import { collectionOrderBySearchParams } from "./models";
 import { SortIcon } from "./_components/SortIcon";
-import { userBoardGamePlay } from "~/server/db/schema/userBoardGamePlay";
-import { currentUser } from "@clerk/nextjs/server";
-import { userPlayGroupMemberPlay } from "~/server/db/schema/userPlayGroupMemberPlay";
-import { userPlayGroupMember } from "~/server/db/schema/userPlayGroupMember";
+import { GetUserBoardGameCollection } from "./queries";
+
+const pending = "#808080";
 
 export default async function Collection({
   searchParams,
@@ -17,55 +12,7 @@ export default async function Collection({
   searchParams: Record<string, string | string[] | undefined>;
 }) {
   const parsedSearchParams = collectionOrderBySearchParams.parse(searchParams);
-
-  const clerkUserId = (await currentUser())?.id;
-
-  if (!clerkUserId) {
-    throw new Error("Can't get current user");
-  }
-
-  function getOrderBy() {
-    if (!parsedSearchParams?.direction || !parsedSearchParams?.orderBy) {
-      return asc(boardGame.id);
-    }
-
-    const { orderBy, direction } = parsedSearchParams;
-
-    if (orderBy === "name") {
-      return direction === "asc" ? asc(boardGame.name) : desc(boardGame.name);
-    }
-
-    return direction === "asc"
-      ? sql`cast(count(${userBoardGamePlay.id}) as integer) ASC`
-      : sql`cast(count(${userBoardGamePlay.id}) as integer) DESC`;
-  }
-
-  const collection = await db
-    .select({
-      id: boardGame.id,
-      name: boardGame.name,
-      playCount: sql<number>`cast(count(distinct ${userBoardGamePlay.id}) as integer)`,
-      players: sql<
-        string[]
-      >`array_agg(distinct ${userPlayGroupMember.nickname})`,
-    })
-    .from(boardGame)
-    .innerJoin(userBoardGame, eq(boardGame.id, userBoardGame.boardGameId))
-    .leftJoin(
-      userBoardGamePlay,
-      eq(userBoardGame.boardGameId, userBoardGamePlay.boardGameId),
-    )
-    .leftJoin(
-      userPlayGroupMemberPlay,
-      eq(userBoardGamePlay.id, userPlayGroupMemberPlay.playId),
-    )
-    .leftJoin(
-      userPlayGroupMember,
-      eq(userPlayGroupMemberPlay.playerId, userPlayGroupMember.id),
-    )
-    .where(eq(userBoardGame.clerkUserId, clerkUserId))
-    .groupBy(boardGame.id)
-    .orderBy(getOrderBy());
+  const collection = await GetUserBoardGameCollection(parsedSearchParams);
 
   return (
     <div>
@@ -80,6 +27,7 @@ export default async function Collection({
               orderBy={parsedSearchParams?.orderBy}
               direction={parsedSearchParams?.direction}
               field={"name"}
+              colours={{ primary: "#000000", pending }}
             />
           </div>
           <div className="flex px-4 py-2">
@@ -88,6 +36,7 @@ export default async function Collection({
               orderBy={parsedSearchParams?.orderBy}
               direction={parsedSearchParams?.direction}
               field={"playCount"}
+              colours={{ primary: "#000000", pending }}
             />
           </div>
           <div className="col-span-2 px-4 py-2">Actions </div>
@@ -99,7 +48,7 @@ export default async function Collection({
               orderBy={parsedSearchParams?.orderBy}
               direction={parsedSearchParams?.direction}
               field={"name"}
-              color={"#ffffff"}
+              colours={{ primary: "#ffffff", pending }}
             />
           </div>
           <div className="flex text-white">
@@ -108,7 +57,7 @@ export default async function Collection({
               orderBy={parsedSearchParams?.orderBy}
               direction={parsedSearchParams?.direction}
               field={"playCount"}
-              color={"#ffffff"}
+              colours={{ primary: "#ffffff", pending }}
             />
           </div>
         </div>
