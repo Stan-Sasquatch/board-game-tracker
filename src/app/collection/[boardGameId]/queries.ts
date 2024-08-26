@@ -11,6 +11,25 @@ export async function GetUserBoardGameWithPlays(boardGameId: number) {
   const userBoardGame = await db.query.userBoardGame.findFirst({
     where: (ub, { eq, and }) =>
       and(eq(ub.boardGameId, boardGameId), eq(ub.clerkUserId, userId)),
+    with: {
+      userBoardGamePlay: {
+        with: {
+          userPlayGroupMemberPlay: {
+            columns: {
+              playerId: false,
+              playId: false,
+            },
+            with: {
+              userPlayGroupMember: {
+                columns: {
+                  nickname: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   });
 
   if (!userBoardGame) {

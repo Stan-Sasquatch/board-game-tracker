@@ -3,8 +3,6 @@ import { db } from "~/server/db";
 import { boardGame } from "~/server/db/schema/boardGame";
 import { userBoardGame } from "~/server/db/schema/userBoardGame";
 import { userBoardGamePlay } from "~/server/db/schema/userBoardGamePlay";
-import { userPlayGroupMemberPlay } from "~/server/db/schema/userPlayGroupMemberPlay";
-import { userPlayGroupMember } from "~/server/db/schema/userPlayGroupMember";
 import { currentUser } from "@clerk/nextjs/server";
 import { type CollectionOrderBySearchParams } from "./models";
 

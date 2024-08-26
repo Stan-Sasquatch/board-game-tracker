@@ -2,6 +2,7 @@ import { relations } from "drizzle-orm";
 import { integer, primaryKey, varchar } from "drizzle-orm/pg-core";
 import { createTable } from "../utils";
 import { boardGame } from "./boardGame";
+import { userBoardGamePlay } from "./userBoardGamePlay";
 
 export const userBoardGame = createTable(
   "userBoardGame",
@@ -19,9 +20,13 @@ export const userBoardGame = createTable(
   },
 );
 
-export const userBoardGameRelations = relations(userBoardGame, ({ one }) => ({
-  boardGame: one(boardGame, {
-    fields: [userBoardGame.boardGameId],
-    references: [boardGame.id],
+export const userBoardGameRelations = relations(
+  userBoardGame,
+  ({ one, many }) => ({
+    boardGame: one(boardGame, {
+      fields: [userBoardGame.boardGameId],
+      references: [boardGame.id],
+    }),
+    userBoardGamePlay: many(userBoardGamePlay),
   }),
-}));
+);

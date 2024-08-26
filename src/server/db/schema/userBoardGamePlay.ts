@@ -8,6 +8,8 @@ import {
 } from "drizzle-orm/pg-core";
 import { createTable } from "../utils";
 import { userBoardGame } from "./userBoardGame";
+import { relations } from "drizzle-orm";
+import { userPlayGroupMemberPlay } from "./userPlayGroupMemberPlay";
 
 export const userBoardGamePlay = createTable(
   "userBoardGamePlay",
@@ -27,4 +29,18 @@ export const userBoardGamePlay = createTable(
       }),
     };
   },
+);
+
+export const userBoardGamePlayRelations = relations(
+  userBoardGamePlay,
+  ({ one, many }) => ({
+    userBoardGame: one(userBoardGame, {
+      fields: [
+        userBoardGamePlay.boardGameOwnerId,
+        userBoardGamePlay.boardGameId,
+      ],
+      references: [userBoardGame.clerkUserId, userBoardGame.boardGameId],
+    }),
+    userPlayGroupMemberPlay: many(userPlayGroupMemberPlay),
+  }),
 );

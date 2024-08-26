@@ -1,6 +1,7 @@
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import { serial, timestamp, varchar } from "drizzle-orm/pg-core";
 import { createTable } from "../utils";
+import { userPlayGroupMemberPlay } from "./userPlayGroupMemberPlay";
 
 export const userPlayGroupMember = createTable("userPlayGroupMember", {
   id: serial("id").primaryKey().notNull(),
@@ -16,3 +17,10 @@ export const userPlayGroupMember = createTable("userPlayGroupMember", {
   ownClerkUserId: varchar("own_clerk_user_id", { length: 32 }),
   updatedAt: timestamp("updated_at"),
 });
+
+export const userPlayGroupMemberRelations = relations(
+  userPlayGroupMember,
+  ({ many }) => ({
+    userPlayGroupMemberPlay: many(userPlayGroupMemberPlay),
+  }),
+);
