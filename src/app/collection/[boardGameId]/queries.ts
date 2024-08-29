@@ -12,6 +12,11 @@ export async function GetUserBoardGameWithPlays(boardGameId: number) {
     where: (ub, { eq, and }) =>
       and(eq(ub.boardGameId, boardGameId), eq(ub.clerkUserId, userId)),
     with: {
+      boardGame: {
+        columns: {
+          name: true,
+        },
+      },
       userBoardGamePlay: {
         with: {
           userPlayGroupMemberPlay: {

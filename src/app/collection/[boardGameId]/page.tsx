@@ -1,3 +1,4 @@
+import { PlaysTable } from "./_components/PlaysTable";
 import { GetUserBoardGameWithPlays } from "./queries";
 
 export default async function Page({
@@ -7,5 +8,10 @@ export default async function Page({
 }) {
   const data = await GetUserBoardGameWithPlays(+params?.boardGameId);
 
-  return <div>{data.boardGameId}</div>;
+  return (
+    <PlaysTable
+      boardGamePlays={data.userBoardGamePlay}
+      boardGameName={data.boardGame.name}
+    />
+  );
 }
