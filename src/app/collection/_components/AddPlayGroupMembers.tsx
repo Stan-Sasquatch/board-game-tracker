@@ -29,7 +29,13 @@ export function AddPlayGroupMembers({
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<NewPlayer>();
+  } = useForm<NewPlayer>({
+    defaultValues: {
+      nickname: "",
+      forename: null,
+      surname: null,
+    },
+  });
   return (
     <div>
       <div>
