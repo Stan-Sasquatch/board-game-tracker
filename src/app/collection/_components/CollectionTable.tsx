@@ -1,5 +1,5 @@
 "use client";
-import { type ColumnDef } from "@tanstack/react-table";
+import { type Row, type ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "~/components/ui/DataTable/data-table";
 import { IconSortToggle } from "~/components/ui/DataTable/icon-sort-toggle";
 import { AddPlayModal } from "./AddPlayModal";
@@ -8,7 +8,7 @@ import { type Collection } from "../queries";
 import Link from "next/link";
 
 export function CollectionTable({ collection }: { collection: Collection }) {
-  const columns: ColumnDef<(typeof collection)[number]>[] = [
+  const columns: ColumnDef<Collection[number]>[] = [
     {
       header: ({ column }) => {
         return (
@@ -19,24 +19,7 @@ export function CollectionTable({ collection }: { collection: Collection }) {
       },
       id: "name",
       accessorKey: "name",
-      cell: ({ row }) => {
-        return (
-          <div className="flex flex-col items-center">
-            <Link
-              href={`/collection/${row.original.id}`}
-              className="font-semibold text-blue-300 underline transition-all duration-300 ease-in-out hover:text-blue-700 hover:underline-offset-2"
-            >
-              {row.getValue("name")}
-            </Link>
-            <div className="py-2 sm:hidden">
-              <AddPlayModal
-                userBoardGamePlayGroupMembers={[]}
-                boardGameId={row.original.id}
-              />
-            </div>
-          </div>
-        );
-      },
+      cell: NameCell,
     },
     {
       header: ({ column }) => {
@@ -48,45 +31,68 @@ export function CollectionTable({ collection }: { collection: Collection }) {
       },
       id: "playCount",
       accessorKey: "playCount",
-      cell: ({ row }) => {
-        return (
-          <div className="flex flex-col items-center">
-            <div>{row.getValue("playCount")}</div>
-            <div className="py-2 sm:hidden">
-              <RemoveUserBoardGameButton boardGameId={row.original.id} />
-            </div>
-          </div>
-        );
-      },
+      cell: PlayCountCell,
     },
     {
       header: () => (
         <div className="hidden justify-center text-white sm:flex">Actions</div>
       ),
       id: "actions",
-      cell: ({ row }) => {
-        return (
-          <div className="hidden flex-row sm:flex ">
-            <div className="px-4 py-2">
-              <AddPlayModal
-                userBoardGamePlayGroupMembers={[]}
-                boardGameId={row.original.id}
-              />
-            </div>
-            <div className="px-4 py-2">
-              <RemoveUserBoardGameButton boardGameId={row.original.id} />
-            </div>
-          </div>
-        );
-      },
+      cell: ActionsCell,
     },
   ];
   return (
-    <div>
+    <div className="w-full px-8 sm:w-auto">
       <h1 className="mb-4 pt-2 text-center text-2xl font-bold">
         Your Collection
       </h1>
       <DataTable columns={columns} data={collection} />
+    </div>
+  );
+}
+
+function NameCell({ row }: { row: Row<Collection[number]> }) {
+  return (
+    <div className="flex flex-col items-center">
+      <Link
+        href={`/collection/${row.original.id}`}
+        className="self-center font-semibold text-blue-300 underline transition-all duration-300 ease-in-out hover:text-blue-700 hover:underline-offset-2"
+      >
+        {row.getValue("name")}
+      </Link>
+      <div className="py-2 sm:hidden">
+        <AddPlayModal
+          userBoardGamePlayGroupMembers={[]}
+          boardGameId={row.original.id}
+        />
+      </div>
+    </div>
+  );
+}
+
+function PlayCountCell({ row }: { row: Row<Collection[number]> }) {
+  return (
+    <div className="flex flex-col items-center">
+      <div>{row.getValue("playCount")}</div>
+      <div className="py-2 sm:hidden">
+        <RemoveUserBoardGameButton boardGameId={row.original.id} />
+      </div>
+    </div>
+  );
+}
+
+function ActionsCell({ row }: { row: Row<Collection[number]> }) {
+  return (
+    <div className="hidden flex-row sm:flex ">
+      <div className="px-4 py-2">
+        <AddPlayModal
+          userBoardGamePlayGroupMembers={[]}
+          boardGameId={row.original.id}
+        />
+      </div>
+      <div className="px-4 py-2">
+        <RemoveUserBoardGameButton boardGameId={row.original.id} />
+      </div>
     </div>
   );
 }
