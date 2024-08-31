@@ -4,5 +4,7 @@
 
 ## To do
 
--[] tidy url params helpers and models
 -[] close modal on new bg play submit (need to migrate to use controlled dialog component)
+-[] existing players in play creation
+-[] players styling in play creation
+-[] mobile styling for collection table
