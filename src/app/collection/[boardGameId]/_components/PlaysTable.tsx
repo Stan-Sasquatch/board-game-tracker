@@ -1,61 +1,48 @@
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "~/components/ui/table";
+"use client";
 import { type BoardGamePlaysWithPlayers } from "../models";
+import { type ColumnDef } from "@tanstack/react-table";
+import { ArrowUpDown } from "lucide-react";
+import { Button } from "~/components/ui/button";
+import { DataTable } from "~/components/ui/data-table";
+import { SortIcon } from "~/components/ui/sort-icon";
 
 export function PlaysTable({
   boardGamePlays,
-  boardGameName,
 }: {
-  boardGamePlays: BoardGamePlaysWithPlayers;
-  boardGameName: string;
+  boardGamePlays: BoardGamePlaysWithPlayers[];
 }) {
+  const columns: ColumnDef<BoardGamePlaysWithPlayers>[] = [
+    {
+      header: ({ column }) => {
+        console.log(column.getIsSorted());
+        return (
+          <Button
+            className="text-white"
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Date of play
+            <SortIcon sortDirection={column.getIsSorted()} />
+          </Button>
+        );
+      },
+      id: "dateOfPlay",
+      sortingFn: "datetime",
+      accessorFn: (play) => play.dateOfPlay.toDateString(),
+    },
+    {
+      header: () => <div className="text-white">Players</div>,
+      id: "players",
+      accessorFn: (play) =>
+        play.userPlayGroupMemberPlay
+          .map((p) => p.userPlayGroupMember.nickname)
+          .join(", "),
+    },
+  ];
+
   return (
-    <div className="flex">
-      <Table>
-        <TableCaption>
-          A list of your recent plays of {boardGameName}
-        </TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Date of play</TableHead>
-            <TableHead>Players</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {boardGamePlays.map((play) => (
-            <TableRow key={play.id}>
-              <TableCell className="font-medium">
-                {play.dateOfPlay.toDateString()}
-              </TableCell>
-              <TableCell>
-                <Table>
-                  <TableRow>
-                    {play.userPlayGroupMemberPlay.map((p) => (
-                      <TableCell key={p.userPlayGroupMember.nickname}>
-                        {p.userPlayGroupMember.nickname}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                </Table>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TableCell>Total</TableCell>
-            <TableCell>{boardGamePlays.length}</TableCell>
-          </TableRow>
-        </TableFooter>
-      </Table>
+    <div className="flex text-white">
+      <DataTable columns={columns} data={boardGamePlays} />
     </div>
   );
 }

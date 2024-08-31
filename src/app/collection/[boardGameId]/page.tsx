@@ -9,9 +9,9 @@ export default async function Page({
   const data = await GetUserBoardGameWithPlays(+params?.boardGameId);
 
   return (
-    <PlaysTable
-      boardGamePlays={data.userBoardGamePlay}
-      boardGameName={data.boardGame.name}
-    />
+    <div className="flex flex-col items-center py-4">
+      <h1 className="py-2">Your plays of &#39;{data.boardGame.name}&#39;</h1>
+      <PlaysTable boardGamePlays={data.userBoardGamePlay} />
+    </div>
   );
 }
