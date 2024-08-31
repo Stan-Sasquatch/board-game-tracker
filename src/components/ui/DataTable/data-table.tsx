@@ -17,8 +17,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "./table";
-import { Button } from "./button";
+} from "../table";
+import { Button } from "../button";
 import React from "react";
 
 interface DataTableProps<TData, TValue> {

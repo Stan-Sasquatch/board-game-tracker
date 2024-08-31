@@ -46,3 +46,5 @@ export async function GetUserBoardGameCollection(
     .groupBy(boardGame.id)
     .orderBy(getOrderBy());
 }
+
+export type Collection = Awaited<ReturnType<typeof GetUserBoardGameCollection>>;

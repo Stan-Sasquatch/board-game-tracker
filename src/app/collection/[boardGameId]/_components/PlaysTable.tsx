@@ -1,10 +1,8 @@
 "use client";
 import { type BoardGamePlaysWithPlayers } from "../models";
 import { type ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
-import { Button } from "~/components/ui/button";
-import { DataTable } from "~/components/ui/data-table";
-import { SortIcon } from "~/components/ui/sort-icon";
+import { DataTable } from "~/components/ui/DataTable/data-table";
+import { IconSortToggle } from "~/components/ui/DataTable/icon-sort-toggle";
 
 export function PlaysTable({
   boardGamePlays,
@@ -15,16 +13,7 @@ export function PlaysTable({
     {
       header: ({ column }) => {
         console.log(column.getIsSorted());
-        return (
-          <Button
-            className="text-white"
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Date of play
-            <SortIcon sortDirection={column.getIsSorted()} />
-          </Button>
-        );
+        return <IconSortToggle column={column} headerTitle={"Date of play"} />;
       },
       id: "dateOfPlay",
       sortingFn: "datetime",
