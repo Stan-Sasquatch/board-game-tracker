@@ -9,3 +9,4 @@
 -[] players styling in play creation
 -[] mobile styling for collection table
 -[] editing/deleting models
+-[] local dev documentation
