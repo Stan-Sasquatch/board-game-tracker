@@ -53,10 +53,10 @@ export function CollectionTable({ collection }: { collection: Collection }) {
 
 function NameCell({ row }: { row: Row<Collection[number]> }) {
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex h-24 flex-col items-center sm:h-auto">
       <Link
         href={`/collection/${row.original.id}`}
-        className="self-center font-semibold text-blue-300 underline transition-all duration-300 ease-in-out hover:text-blue-700 hover:underline-offset-2"
+        className="h-12 self-center overflow-hidden font-semibold text-blue-300 underline transition-all duration-300 ease-in-out hover:text-blue-700 hover:underline-offset-2 sm:h-auto"
       >
         {row.getValue("name")}
       </Link>
@@ -72,8 +72,8 @@ function NameCell({ row }: { row: Row<Collection[number]> }) {
 
 function PlayCountCell({ row }: { row: Row<Collection[number]> }) {
   return (
-    <div className="flex flex-col items-center">
-      <div>{row.getValue("playCount")}</div>
+    <div className="flex h-24 flex-col items-center sm:h-auto">
+      <div className="h-12 sm:h-auto">{row.getValue("playCount")}</div>
       <div className="py-2 sm:hidden">
         <RemoveUserBoardGameButton boardGameId={row.original.id} />
       </div>

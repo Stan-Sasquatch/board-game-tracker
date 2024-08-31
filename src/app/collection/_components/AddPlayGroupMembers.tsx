@@ -107,10 +107,10 @@ export function AddPlayGroupMembers({
       </div>
       {newPlayGroupMembers.length > 0 && (
         <div>
-          <h3 className="font-semibold">New players</h3>
+          <h3 className="py-2 font-semibold">New players</h3>
           <ul>
             {newPlayGroupMembers.map((pgm) => (
-              <li key={pgm.nickname}>
+              <li key={pgm.nickname} className="flex items-center gap-4">
                 <span>{pgm.nickname}</span>
                 <Button
                   variant={"destructive"}
