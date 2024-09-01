@@ -1,7 +1,6 @@
-import { type CollectionQueryKeys } from "../collection/models";
 import { type SearchPageQueryKeys } from "./models";
 
-type ValidKeys = SearchPageQueryKeys | CollectionQueryKeys;
+type ValidKeys = SearchPageQueryKeys;
 
 export function setUrlParams<T extends ValidKeys>(
   params: URLSearchParams,
