@@ -15,7 +15,15 @@ export default async function HomePage() {
 
   return (
     <main className="flex flex-col items-center justify-center">
-      {randomBoardGame?.name ?? "No game found"}
+      {randomBoardGame?.name ? (
+        <>
+          <h1 className="pt-2">Random boardgame of the day:</h1>
+          <br />
+          <div>{randomBoardGame.name}</div>
+        </>
+      ) : (
+        <h1>Nothing to see here - Try refreshing!</h1>
+      )}
     </main>
   );
 }

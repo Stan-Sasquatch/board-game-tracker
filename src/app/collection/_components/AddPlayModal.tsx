@@ -23,6 +23,7 @@ import { ChevronDown, ChevronRight } from "lucide-react";
 import { CreateUserBoardGamePlay } from "../actions";
 import { useEffect, useState, useTransition } from "react";
 import { useToast } from "~/components/ui/use-toast";
+import { CollapsibleContentToggle } from "~/components/collapsible-content-toggle";
 
 export type NewPlayer = {
   nickname: string;
@@ -129,9 +130,7 @@ export function AddPlayModal({
                 <h3 className="self-center pr-2 font-semibold">
                   Add players <span>(optional)</span>
                 </h3>
-                <CollapsibleContentToggle
-                  addNewPlayersOpen={parentAddPlayersOpen}
-                />
+                <CollapsibleContentToggle open={parentAddPlayersOpen} />
               </div>
               <CollapsibleContent>
                 <>
@@ -166,24 +165,6 @@ export function AddPlayModal({
   );
 }
 
-function CollapsibleContentToggle({
-  addNewPlayersOpen,
-}: {
-  addNewPlayersOpen: boolean;
-}) {
-  return (
-    <CollapsibleTrigger asChild className="px-2">
-      <Button type="button" size="sm" variant="outline">
-        {addNewPlayersOpen ? (
-          <ChevronDown className="h-4 w-4" />
-        ) : (
-          <ChevronRight className="h-4 w-4" />
-        )}
-      </Button>
-    </CollapsibleTrigger>
-  );
-}
-
 function AddPlayersFromPlayGroup({
   playerOptions,
   control,
@@ -211,7 +192,7 @@ function AddPlayersFromPlayGroup({
         <h4 className="pr-2">
           Add players from your <b>playgroup</b>
         </h4>
-        <CollapsibleContentToggle addNewPlayersOpen={addPlayGroupPlayersOpen} />
+        <CollapsibleContentToggle open={addPlayGroupPlayersOpen} />
       </div>
       <CollapsibleContent className="py-4">
         <MultiSelect
@@ -245,7 +226,7 @@ function AddNewPlayers({
     <Collapsible open={addNewPlayersOpen} onOpenChange={setAddNewPlayersOpen}>
       <div className="flex">
         <h4 className="pr-2">Add new players</h4>
-        <CollapsibleContentToggle addNewPlayersOpen={addNewPlayersOpen} />
+        <CollapsibleContentToggle open={addNewPlayersOpen} />
       </div>
       <CollapsibleContent>
         <AddPlayGroupMembers

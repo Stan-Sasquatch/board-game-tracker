@@ -4,6 +4,7 @@ import { boardGameSearchParamsSchema } from "./models";
 import { boardGame } from "~/server/db/schema/boardGame";
 import { sql, and, gt, asc, eq } from "drizzle-orm";
 import { SelectedBoardGame } from "./_components/SelectedBoardGame";
+import { SearchInfo } from "./_components/SearchInfo";
 
 export default async function Search({
   searchParams,
@@ -13,10 +14,11 @@ export default async function Search({
   const parsedSearchParams = boardGameSearchParamsSchema.parse(searchParams);
   const results = await GetBoardgames(parsedSearchParams);
   return (
-    <div className="flex flex-col items-center justify-center p-2 sm:w-2/3 sm:p-24">
+    <div className="flex flex-col items-center justify-center p-4 sm:w-2/3 sm:p-24">
       <SearchBar results={results} key={parsedSearchParams?.selected}>
         <SelectedBoardGame searchParams={parsedSearchParams} />
       </SearchBar>
+      <SearchInfo />
     </div>
   );
 }
