@@ -21,7 +21,8 @@ import { MultiSelect } from "~/components/ui/multi-select";
 import { AddPlayGroupMembers } from "./AddPlayGroupMembers";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { CreateUserBoardGamePlay } from "../actions";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
+import { useToast } from "~/components/ui/use-toast";
 
 export type NewPlayer = {
   nickname: string;
@@ -60,10 +61,17 @@ export function AddPlayModal({
       newPlayers: [],
     },
   });
+  const { toast } = useToast();
 
   const onSubmit = handleSubmit((data) => {
     startTransition(async () => {
-      await CreateUserBoardGamePlay(data, boardGameId);
+      const result = await CreateUserBoardGamePlay(data, boardGameId);
+      toast({
+        title: result.success
+          ? "Succesfully logged play"
+          : "Uh oh! Something went wrong.",
+        description: result.message,
+      });
     });
     reset();
     setDialogOpen(false);

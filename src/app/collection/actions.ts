@@ -51,7 +51,10 @@ export async function CreateUserBoardGamePlay(
   const playId = userBoardGamePlayResult?.insertedId;
 
   if (!playId) {
-    throw new Error("Inserting userBoardGamePlay did not return an id");
+    return {
+      success: false,
+      message: "Something went wrong while saving",
+    };
   }
 
   if (model.newPlayers.length > 0) {
@@ -70,7 +73,10 @@ export async function CreateUserBoardGamePlay(
       const playerId = userPlayGroupMemberResult?.insertedId;
 
       if (!playerId) {
-        throw new Error("Inserting userPlayGroupMember did not return an id");
+        return {
+          success: false,
+          message: "Something went wrong while saving",
+        };
       }
 
       await db.insert(userPlayGroupMemberPlay).values({
@@ -90,4 +96,9 @@ export async function CreateUserBoardGamePlay(
   }
 
   revalidatePath("/collection");
+
+  return {
+    success: true,
+    message: "Board game successfully added to collection",
+  };
 }
