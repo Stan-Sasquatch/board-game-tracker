@@ -21,12 +21,12 @@ import { MultiSelect } from "~/components/ui/multi-select";
 import { AddPlayGroupMembers } from "./AddPlayGroupMembers";
 import { ChevronUp } from "lucide-react";
 import { CreateUserBoardGamePlay } from "../actions";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 
 export type NewPlayer = {
   nickname: string;
-  forename?: string;
-  surname?: string;
+  forename: string | null;
+  surname: string | null;
 };
 
 export type CreatePlayModel = {
@@ -43,6 +43,8 @@ export function AddPlayModal({
   userBoardGamePlayGroupMembers: { nickname: string; id: string }[];
 }) {
   const [isPending, startTransition] = useTransition();
+  const [dialogOpen, setDialogOpen] = useState(false);
+
   const {
     control,
     handleSubmit,
@@ -61,6 +63,7 @@ export function AddPlayModal({
       await CreateUserBoardGamePlay(data, boardGameId);
     });
     reset();
+    setDialogOpen(false);
   });
 
   const { field: dateOfPlay } = useController({
@@ -86,7 +89,7 @@ export function AddPlayModal({
 
   return (
     <>
-      <Dialog>
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogTrigger asChild>
           <Button variant="default">Add Play</Button>
         </DialogTrigger>
