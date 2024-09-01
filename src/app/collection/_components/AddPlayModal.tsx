@@ -37,10 +37,10 @@ export type CreatePlayModel = {
 
 export function AddPlayModal({
   boardGameId,
-  userBoardGamePlayGroupMembers,
+  userPlayGroupMembers,
 }: {
   boardGameId: number;
-  userBoardGamePlayGroupMembers: { nickname: string; id: string }[];
+  userPlayGroupMembers: { nickname: string; id: number }[];
 }) {
   const [isPending, startTransition] = useTransition();
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -82,9 +82,9 @@ export function AddPlayModal({
     control,
   });
 
-  const playerOptions = userBoardGamePlayGroupMembers.map((u) => ({
+  const playerOptions = userPlayGroupMembers.map((u) => ({
     label: u.nickname,
-    value: u.id,
+    value: u.id.toString(),
   }));
 
   return (
@@ -119,7 +119,7 @@ export function AddPlayModal({
               </div>
               <CollapsibleContent>
                 <>
-                  {userBoardGamePlayGroupMembers.length > 0 && (
+                  {userPlayGroupMembers.length > 0 && (
                     <>
                       <h3>
                         Add players from your <b>playgroup</b>
@@ -136,7 +136,7 @@ export function AddPlayModal({
                     </>
                   )}
                   <AddPlayGroupMembers
-                    existingNicknames={userBoardGamePlayGroupMembers.map(
+                    existingNicknames={userPlayGroupMembers.map(
                       (pgm) => pgm.nickname,
                     )}
                     onNewPlayersChange={newPlayers.onChange}

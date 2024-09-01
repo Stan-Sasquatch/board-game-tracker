@@ -1,5 +1,5 @@
 import { collectionOrderBySearchParams } from "./models";
-import { GetUserBoardGameCollection } from "./queries";
+import { GetUserBoardGameCollection, GetUserPlayGroupMembers } from "./queries";
 import { CollectionTable } from "./_components/CollectionTable";
 
 export default async function Collection({
@@ -9,5 +9,11 @@ export default async function Collection({
 }) {
   const parsedSearchParams = collectionOrderBySearchParams.parse(searchParams);
   const collection = await GetUserBoardGameCollection(parsedSearchParams);
-  return <CollectionTable collection={collection} />;
+  const userPlayGroupMembers = await GetUserPlayGroupMembers();
+  return (
+    <CollectionTable
+      collection={collection}
+      userPlayGroupMembers={userPlayGroupMembers}
+    />
+  );
 }

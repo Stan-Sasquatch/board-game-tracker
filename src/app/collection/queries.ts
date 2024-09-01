@@ -48,3 +48,23 @@ export async function GetUserBoardGameCollection(
 }
 
 export type Collection = Awaited<ReturnType<typeof GetUserBoardGameCollection>>;
+
+export async function GetUserPlayGroupMembers() {
+  const clerkUserId = (await currentUser())?.id;
+
+  if (!clerkUserId) {
+    throw new Error("Can't get current user");
+  }
+
+  return await db.query.userPlayGroupMember.findMany({
+    where: (pgm, { eq }) => eq(pgm.playGroupOwnerClerkUserId, clerkUserId),
+    columns: {
+      id: true,
+      nickname: true,
+    },
+  });
+}
+
+export type UserPlayGroupMembers = Awaited<
+  ReturnType<typeof GetUserPlayGroupMembers>
+>;

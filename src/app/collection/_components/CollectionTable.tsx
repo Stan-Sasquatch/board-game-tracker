@@ -4,10 +4,16 @@ import { DataTable } from "~/components/ui/DataTable/data-table";
 import { IconSortToggle } from "~/components/ui/DataTable/icon-sort-toggle";
 import { AddPlayModal } from "./AddPlayModal";
 import { RemoveUserBoardGameButton } from "./RemoveUserBoardGameButton";
-import { type Collection } from "../queries";
+import { UserPlayGroupMembers, type Collection } from "../queries";
 import Link from "next/link";
 
-export function CollectionTable({ collection }: { collection: Collection }) {
+export function CollectionTable({
+  collection,
+  userPlayGroupMembers,
+}: {
+  collection: Collection;
+  userPlayGroupMembers: UserPlayGroupMembers;
+}) {
   const columns: ColumnDef<Collection[number]>[] = [
     {
       header: ({ column }) => {
@@ -19,7 +25,24 @@ export function CollectionTable({ collection }: { collection: Collection }) {
       },
       id: "name",
       accessorKey: "name",
-      cell: NameCell,
+      cell: ({ row }: { row: Row<Collection[number]> }) => {
+        return (
+          <div className="flex h-24 flex-col items-center sm:h-auto">
+            <Link
+              href={`/collection/${row.original.id}`}
+              className="h-12 self-center overflow-hidden font-semibold text-blue-300 underline transition-all duration-300 ease-in-out hover:text-blue-700 hover:underline-offset-2 sm:h-auto"
+            >
+              {row.getValue("name")}
+            </Link>
+            <div className="py-2 sm:hidden">
+              <AddPlayModal
+                userPlayGroupMembers={userPlayGroupMembers}
+                boardGameId={row.original.id}
+              />
+            </div>
+          </div>
+        );
+      },
     },
     {
       header: ({ column }) => {
@@ -38,7 +61,21 @@ export function CollectionTable({ collection }: { collection: Collection }) {
         <div className="hidden justify-center text-white sm:flex">Actions</div>
       ),
       id: "actions",
-      cell: ActionsCell,
+      cell: ({ row }: { row: Row<Collection[number]> }) => {
+        return (
+          <div className="hidden flex-row sm:flex ">
+            <div className="px-4 py-2">
+              <AddPlayModal
+                userPlayGroupMembers={userPlayGroupMembers}
+                boardGameId={row.original.id}
+              />
+            </div>
+            <div className="px-4 py-2">
+              <RemoveUserBoardGameButton boardGameId={row.original.id} />
+            </div>
+          </div>
+        );
+      },
     },
   ];
   return (
@@ -51,46 +88,11 @@ export function CollectionTable({ collection }: { collection: Collection }) {
   );
 }
 
-function NameCell({ row }: { row: Row<Collection[number]> }) {
-  return (
-    <div className="flex h-24 flex-col items-center sm:h-auto">
-      <Link
-        href={`/collection/${row.original.id}`}
-        className="h-12 self-center overflow-hidden font-semibold text-blue-300 underline transition-all duration-300 ease-in-out hover:text-blue-700 hover:underline-offset-2 sm:h-auto"
-      >
-        {row.getValue("name")}
-      </Link>
-      <div className="py-2 sm:hidden">
-        <AddPlayModal
-          userBoardGamePlayGroupMembers={[]}
-          boardGameId={row.original.id}
-        />
-      </div>
-    </div>
-  );
-}
-
 function PlayCountCell({ row }: { row: Row<Collection[number]> }) {
   return (
     <div className="flex h-24 flex-col items-center sm:h-auto">
       <div className="h-12 sm:h-auto">{row.getValue("playCount")}</div>
       <div className="py-2 sm:hidden">
-        <RemoveUserBoardGameButton boardGameId={row.original.id} />
-      </div>
-    </div>
-  );
-}
-
-function ActionsCell({ row }: { row: Row<Collection[number]> }) {
-  return (
-    <div className="hidden flex-row sm:flex ">
-      <div className="px-4 py-2">
-        <AddPlayModal
-          userBoardGamePlayGroupMembers={[]}
-          boardGameId={row.original.id}
-        />
-      </div>
-      <div className="px-4 py-2">
         <RemoveUserBoardGameButton boardGameId={row.original.id} />
       </div>
     </div>

@@ -5,7 +5,7 @@ import { userPlayGroupMemberPlay } from "./userPlayGroupMemberPlay";
 
 export const userPlayGroupMember = createTable("userPlayGroupMember", {
   id: serial("id").primaryKey().notNull(),
-  nickname: varchar("nickname", { length: 128 }),
+  nickname: varchar("nickname", { length: 128 }).notNull(),
   forename: varchar("forename", { length: 128 }),
   surname: varchar("surname", { length: 128 }),
   createdAt: timestamp("created_at")
