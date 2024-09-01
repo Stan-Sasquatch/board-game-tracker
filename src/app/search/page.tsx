@@ -18,7 +18,9 @@ export default async function Search({
       <SearchBar results={results} key={parsedSearchParams?.selected}>
         <SelectedBoardGame searchParams={parsedSearchParams} />
       </SearchBar>
-      <SearchInfo />
+      <div className="py-4">
+        <SearchInfo />
+      </div>
     </div>
   );
 }
