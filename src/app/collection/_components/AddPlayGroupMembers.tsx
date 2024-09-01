@@ -40,7 +40,9 @@ export function AddPlayGroupMembers({
     <div>
       <div>
         <div className="py-2">
-          <Label htmlFor="nickname">Nickname</Label>
+          <Label aria-required htmlFor="nickname">
+            Nickname<span className="text-red-600">*</span>
+          </Label>
           <Input
             type="text"
             id="nickname"

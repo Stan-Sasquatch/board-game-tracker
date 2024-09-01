@@ -30,7 +30,7 @@ export function PlaysTable({
   ];
 
   return (
-    <div className="flex text-white">
+    <div className="flex px-8 text-white">
       <DataTable columns={columns} data={boardGamePlays} />
     </div>
   );

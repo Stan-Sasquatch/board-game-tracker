@@ -106,7 +106,9 @@ export function AddPlayModal({
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 px-2 py-4">
-            <h3 className="font-semibold">Date of play</h3>
+            <h3 className="font-semibold">
+              Date of play<span className="text-red-600">*</span>
+            </h3>
             <DatePicker setDate={dateOfPlay.onChange} date={dateOfPlay.value} />
             {errors?.dateOfPlay?.message && (
               <div className="text-red-600">{errors?.dateOfPlay?.message}</div>
