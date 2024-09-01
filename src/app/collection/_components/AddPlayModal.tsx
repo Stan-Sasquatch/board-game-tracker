@@ -15,11 +15,11 @@ import {
   CollapsibleTrigger,
 } from "~/components/ui/collapsible";
 
-import { useForm, useController } from "react-hook-form";
+import { useForm, useController, type Control } from "react-hook-form";
 import { DatePicker } from "~/components/ui/date-picker";
 import { MultiSelect } from "~/components/ui/multi-select";
 import { AddPlayGroupMembers } from "./AddPlayGroupMembers";
-import { ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronRight } from "lucide-react";
 import { CreateUserBoardGamePlay } from "../actions";
 import { useState, useTransition } from "react";
 
@@ -44,6 +44,7 @@ export function AddPlayModal({
 }) {
   const [isPending, startTransition] = useTransition();
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [parentAddPlayersOpen, setParentAddPlayersOpen] = useState(false);
 
   const {
     control,
@@ -72,16 +73,6 @@ export function AddPlayModal({
     rules: { required: true },
   });
 
-  const { field: players } = useController({
-    name: "players",
-    control,
-  });
-
-  const { field: newPlayers } = useController({
-    name: "newPlayers",
-    control,
-  });
-
   const playerOptions = userPlayGroupMembers.map((u) => ({
     label: u.nickname,
     value: u.id.toString(),
@@ -107,40 +98,30 @@ export function AddPlayModal({
             {errors?.dateOfPlay?.message && (
               <div>{errors?.dateOfPlay?.message}</div>
             )}
-
-            <Collapsible>
+            <Collapsible
+              open={parentAddPlayersOpen}
+              onOpenChange={setParentAddPlayersOpen}
+            >
               <div className="flex">
-                <h3 className="self-center font-semibold">Add new players</h3>
-                <CollapsibleTrigger className="px-2">
-                  <Button type="button" size="sm" variant="outline">
-                    <ChevronUp className="h-4 w-4" />
-                  </Button>
-                </CollapsibleTrigger>
+                <h3 className="self-center font-semibold">
+                  Add players <span>(optional)</span>
+                </h3>
+                <CollapsibleContentToggle
+                  addNewPlayersOpen={parentAddPlayersOpen}
+                />
               </div>
               <CollapsibleContent>
                 <>
                   {userPlayGroupMembers.length > 0 && (
-                    <>
-                      <h3>
-                        Add players from your <b>playgroup</b>
-                      </h3>
-                      <MultiSelect
-                        options={playerOptions}
-                        onValueChange={players.onChange}
-                        defaultValue={players.value}
-                        placeholder="Select players"
-                        variant="inverted"
-                        maxCount={3}
-                      />
-                      <div>{errors?.players?.message}</div>
-                    </>
+                    <AddPlayersFromPlayGroup
+                      playerOptions={playerOptions}
+                      control={control}
+                      playersErrorMessage={errors?.players?.message}
+                    />
                   )}
-                  <AddPlayGroupMembers
-                    existingNicknames={userPlayGroupMembers.map(
-                      (pgm) => pgm.nickname,
-                    )}
-                    onNewPlayersChange={newPlayers.onChange}
-                    newPlayGroupMembers={newPlayers.value}
+                  <AddNewPlayers
+                    control={control}
+                    userPlayGroupMembers={userPlayGroupMembers}
                   />
                 </>
               </CollapsibleContent>
@@ -159,5 +140,97 @@ export function AddPlayModal({
         </DialogContent>
       </Dialog>
     </>
+  );
+}
+
+function CollapsibleContentToggle({
+  addNewPlayersOpen,
+}: {
+  addNewPlayersOpen: boolean;
+}) {
+  return (
+    <CollapsibleTrigger className="px-2">
+      <Button type="button" size="sm" variant="outline">
+        {addNewPlayersOpen ? (
+          <ChevronDown className="h-4 w-4" />
+        ) : (
+          <ChevronRight className="h-4 w-4" />
+        )}
+      </Button>
+    </CollapsibleTrigger>
+  );
+}
+
+function AddPlayersFromPlayGroup({
+  playerOptions,
+  control,
+  playersErrorMessage,
+}: {
+  playerOptions: {
+    label: string;
+    value: string;
+  }[];
+  control: Control<CreatePlayModel> | undefined;
+  playersErrorMessage: string | undefined;
+}) {
+  const [addPlayGroupPlayersOpen, setAddPlayGroupPlayersOpen] = useState(false);
+  const { field: players } = useController({
+    name: "players",
+    control,
+  });
+
+  return (
+    <Collapsible
+      open={addPlayGroupPlayersOpen}
+      onOpenChange={setAddPlayGroupPlayersOpen}
+    >
+      <div className="flex">
+        <h4>
+          Add players from your <b>playgroup</b>
+        </h4>
+        <CollapsibleContentToggle addNewPlayersOpen={addPlayGroupPlayersOpen} />
+      </div>
+      <CollapsibleContent className="py-4">
+        <MultiSelect
+          options={playerOptions}
+          onValueChange={players.onChange}
+          defaultValue={players.value}
+          placeholder="Select players"
+          variant="inverted"
+          maxCount={3}
+        />
+        <div>{playersErrorMessage}</div>
+      </CollapsibleContent>
+    </Collapsible>
+  );
+}
+
+function AddNewPlayers({
+  control,
+  userPlayGroupMembers,
+}: {
+  control: Control<CreatePlayModel> | undefined;
+  userPlayGroupMembers: { nickname: string; id: number }[];
+}) {
+  const [addNewPlayersOpen, setAddNewPlayersOpen] = useState(false);
+
+  const { field: newPlayers } = useController({
+    name: "newPlayers",
+    control,
+  });
+  return (
+    <Collapsible open={addNewPlayersOpen} onOpenChange={setAddNewPlayersOpen}>
+      <div className="flex">
+        <h4>Add new players</h4>
+        <CollapsibleContentToggle addNewPlayersOpen={addNewPlayersOpen} />
+      </div>
+      <CollapsibleContent>
+        <AddPlayGroupMembers
+          existingNicknames={userPlayGroupMembers.map((pgm) => pgm.nickname)}
+          onNewPlayersChange={newPlayers.onChange}
+          newPlayGroupMembers={newPlayers.value}
+        />
+      </CollapsibleContent>
+    </Collapsible>
   );
 }
