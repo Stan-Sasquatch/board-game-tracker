@@ -72,7 +72,10 @@ export function AddPlayModal({
   const { field: dateOfPlay } = useController({
     name: "dateOfPlay",
     control,
-    rules: { required: true },
+    rules: {
+      required: true,
+      validate: (value) => value <= new Date() || "Date can't be in the future",
+    },
   });
 
   const playerOptions = userPlayGroupMembers.map((u) => ({
@@ -80,9 +83,17 @@ export function AddPlayModal({
     value: u.id.toString(),
   }));
 
+  const onOpenChange = (open: boolean) => {
+    setDialogOpen(open);
+
+    if (!open) {
+      reset();
+    }
+  };
+
   return (
     <>
-      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+      <Dialog open={dialogOpen} onOpenChange={onOpenChange}>
         <DialogTrigger asChild>
           <Button variant="default">Add Play</Button>
         </DialogTrigger>
@@ -98,7 +109,7 @@ export function AddPlayModal({
             <h3 className="font-semibold">Date of play</h3>
             <DatePicker setDate={dateOfPlay.onChange} date={dateOfPlay.value} />
             {errors?.dateOfPlay?.message && (
-              <div>{errors?.dateOfPlay?.message}</div>
+              <div className="text-red-600">{errors?.dateOfPlay?.message}</div>
             )}
             <Collapsible
               open={parentAddPlayersOpen}
