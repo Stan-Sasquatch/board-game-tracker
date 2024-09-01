@@ -26,7 +26,9 @@ export const userBoardGamePlay = createTable(
         columns: [table.boardGameOwnerId, table.boardGameId],
         foreignColumns: [userBoardGame.clerkUserId, userBoardGame.boardGameId],
         name: `${process.env.NODE_ENV}_user_board_game_fk`,
-      }),
+      })
+        .onDelete("cascade")
+        .onUpdate("cascade"),
     };
   },
 );

@@ -12,7 +12,10 @@ export const userPlayGroupMemberPlay = createTable(
       .references(() => userPlayGroupMember.id),
     playId: integer("play_id")
       .notNull()
-      .references(() => userBoardGamePlay.id),
+      .references(() => userBoardGamePlay.id, {
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      }),
   },
   (table) => {
     return {
