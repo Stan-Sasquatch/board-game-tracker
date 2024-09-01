@@ -4,7 +4,7 @@ import { DataTable } from "~/components/ui/DataTable/data-table";
 import { IconSortToggle } from "~/components/ui/DataTable/icon-sort-toggle";
 import { AddPlayModal } from "./AddPlayModal";
 import { RemoveUserBoardGameButton } from "./RemoveUserBoardGameButton";
-import { UserPlayGroupMembers, type Collection } from "../queries";
+import { type UserPlayGroupMembers, type Collection } from "../queries";
 import Link from "next/link";
 
 export function CollectionTable({
@@ -38,6 +38,7 @@ export function CollectionTable({
               <AddPlayModal
                 userPlayGroupMembers={userPlayGroupMembers}
                 boardGameId={row.original.id}
+                boardGameName={row.original.name}
               />
             </div>
           </div>
@@ -68,6 +69,7 @@ export function CollectionTable({
               <AddPlayModal
                 userPlayGroupMembers={userPlayGroupMembers}
                 boardGameId={row.original.id}
+                boardGameName={row.original.name}
               />
             </div>
             <div className="px-4 py-2">

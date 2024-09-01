@@ -37,9 +37,11 @@ export type CreatePlayModel = {
 
 export function AddPlayModal({
   boardGameId,
+  boardGameName,
   userPlayGroupMembers,
 }: {
   boardGameId: number;
+  boardGameName: string;
   userPlayGroupMembers: { nickname: string; id: number }[];
 }) {
   const [isPending, startTransition] = useTransition();
@@ -86,7 +88,7 @@ export function AddPlayModal({
         </DialogTrigger>
         <DialogContent className="grid gap-4 px-4 py-4 sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Log a play</DialogTitle>
+            <DialogTitle>{`Log a play of ${boardGameName}`}</DialogTitle>
             <DialogDescription>
               Add the details of your play here. Click save when you&apos;re
               done.
@@ -103,7 +105,7 @@ export function AddPlayModal({
               onOpenChange={setParentAddPlayersOpen}
             >
               <div className="flex">
-                <h3 className="self-center font-semibold">
+                <h3 className="self-center pr-2 font-semibold">
                   Add players <span>(optional)</span>
                 </h3>
                 <CollapsibleContentToggle
@@ -149,7 +151,7 @@ function CollapsibleContentToggle({
   addNewPlayersOpen: boolean;
 }) {
   return (
-    <CollapsibleTrigger className="px-2">
+    <CollapsibleTrigger asChild className="px-2">
       <Button type="button" size="sm" variant="outline">
         {addNewPlayersOpen ? (
           <ChevronDown className="h-4 w-4" />
@@ -185,7 +187,7 @@ function AddPlayersFromPlayGroup({
       onOpenChange={setAddPlayGroupPlayersOpen}
     >
       <div className="flex">
-        <h4>
+        <h4 className="pr-2">
           Add players from your <b>playgroup</b>
         </h4>
         <CollapsibleContentToggle addNewPlayersOpen={addPlayGroupPlayersOpen} />
@@ -221,7 +223,7 @@ function AddNewPlayers({
   return (
     <Collapsible open={addNewPlayersOpen} onOpenChange={setAddNewPlayersOpen}>
       <div className="flex">
-        <h4>Add new players</h4>
+        <h4 className="pr-2">Add new players</h4>
         <CollapsibleContentToggle addNewPlayersOpen={addNewPlayersOpen} />
       </div>
       <CollapsibleContent>
