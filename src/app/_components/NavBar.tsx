@@ -7,7 +7,6 @@ export function NavBar() {
   const pathName = usePathname();
 
   const links = [
-    { href: "/", title: "Home" },
     { href: "/search", title: "All Games" },
     { href: "/collection", title: "My Collection" },
   ];

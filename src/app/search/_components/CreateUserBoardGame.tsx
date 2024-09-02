@@ -1,9 +1,9 @@
 "use client";
 import { createUserBoardGame } from "../actions";
-import { SubmitButton } from "~/app/_components/SubmitButton";
 import { useFormState } from "react-dom";
 import { useToast } from "~/components/ui/use-toast";
 import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
+import { SubmitButton } from "./SubmitButton";
 
 export function CreateUserBoardGame({ parsedId }: { parsedId: number }) {
   const [saveResponseKey, setSaveResponseKey] = useState<string | null>(null);

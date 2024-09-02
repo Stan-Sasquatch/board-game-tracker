@@ -12,6 +12,16 @@ const config = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  async redirects() {
+    return [
+      // Basic redirect
+      {
+        source: "/",
+        destination: "/search",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default config;
