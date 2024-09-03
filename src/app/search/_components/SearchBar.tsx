@@ -58,7 +58,7 @@ export function SearchBar({
 
   return (
     <>
-      <Command className={"w-72 sm:w-96"}>
+      <Command className={"min-w-64 sm:w-96"}>
         <div className="flex flex-row">
           <ControlledCommandInput
             placeholder="Search for boardgames"
