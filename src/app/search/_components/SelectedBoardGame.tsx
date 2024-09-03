@@ -27,7 +27,7 @@ export async function SelectedBoardGame({
 
   return (
     <div>
-      <div>{`Selected ${boardGame.name}`}</div>
+      <div className="py-2 text-center">{`Selected ${boardGame.name}`}</div>
       <div>
         <SignedOut>
           <div>You&apos;ll need to sign in to add this to your collection</div>
