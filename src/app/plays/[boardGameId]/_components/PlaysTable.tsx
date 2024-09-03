@@ -18,7 +18,7 @@ export const dateOfPlayColumn: ColumnDef<PlayTableRow> = {
   },
   id: "dateOfPlay",
   sortingFn: "datetime",
-  accessorFn: (play) => play.dateOfPlay.toDateString(),
+  accessorFn: (play) => play.dateOfPlay.toLocaleDateString(),
   cell: ({ row }: { row: Row<PlayTableRow> }) => {
     return <div className="text-center">{row.getValue("dateOfPlay")}</div>;
   },

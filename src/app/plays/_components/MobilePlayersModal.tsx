@@ -29,7 +29,7 @@ export function MobilePlayersModal({ rowData }: { rowData: AllPlaysTableRow }) {
           </DialogHeader>
           <DialogFooter>
             <div className="text-center">
-              {rowData.boardGameName} {rowData.dateOfPlay.toDateString()}
+              {rowData.boardGameName} {rowData.dateOfPlay.toLocaleDateString()}
             </div>
           </DialogFooter>
         </DialogContent>
