@@ -28,7 +28,11 @@ export const playsTableColumns: ColumnDef<PlayTableRow>[] = [
   dateOfPlayColumn,
   {
     header: ({ column }) => {
-      return <IconSortToggle column={column} headerTitle={"Players"} />;
+      return (
+        <div className="flex justify-center">
+          <IconSortToggle column={column} headerTitle={"Players"} />
+        </div>
+      );
     },
     id: "players",
     sortingFn: (rowA, rowB) => {
@@ -53,6 +57,10 @@ export const playsTableColumns: ColumnDef<PlayTableRow>[] = [
             .map((p) => p.userPlayGroupMember.nickname)
             .join(", ")
         : "No players recorded",
+
+    cell: ({ row }: { row: Row<PlayTableRow> }) => {
+      return <div className="text-center">{row.getValue("players")}</div>;
+    },
   },
 ];
 
@@ -63,6 +71,7 @@ export function PlaysTable({
 }) {
   return (
     <div className="flex px-8 text-white">
+      {/* Mobile Table */}
       <div className="sm:hidden">
         <DataTable
           columns={playsTableColumns}
@@ -70,6 +79,7 @@ export function PlaysTable({
           pageSize={5}
         />
       </div>
+      {/* Desktop Table */}
       <div className={"hidden sm:table"}>
         <DataTable columns={playsTableColumns} data={boardGamePlays} />
       </div>
