@@ -22,15 +22,11 @@ export function SearchInfoModal() {
         <DialogContent className="grid gap-4 px-4 py-4 sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Info</DialogTitle>
-            <DialogDescription>
-              <>
-                <p className="text-center">
-                  Search for board games you own here
-                </p>
-                <p className="mt-2 text-center">
-                  You will need to log in to save games to your collection
-                </p>
-              </>
+            <DialogDescription className="text-center">
+              Search for board games you own here
+            </DialogDescription>
+            <DialogDescription className="text-center">
+              You will need to log in to save games to your collection
             </DialogDescription>
           </DialogHeader>
         </DialogContent>
