@@ -30,7 +30,7 @@ export function CollectionTable({
           <div className="flex h-24 flex-col items-center sm:h-auto">
             <Link
               href={`/plays/${row.original.id}`}
-              className="h-12 self-center overflow-hidden font-semibold text-blue-300 underline transition-all duration-300 ease-in-out hover:text-blue-700 hover:underline-offset-2 sm:h-auto"
+              className="h-12 self-center overflow-hidden text-center font-semibold text-blue-300 underline transition-all duration-300 ease-in-out hover:text-blue-700 hover:underline-offset-2 sm:h-auto"
             >
               {row.getValue("name")}
             </Link>
@@ -85,7 +85,16 @@ export function CollectionTable({
       <h1 className="mb-4 pt-2 text-center text-2xl font-bold">
         Your Collection
       </h1>
-      <DataTable columns={columns} data={collection} />
+      <div className="sm:hidden">
+        <DataTable
+          columns={columns.filter((c) => c.id != "actions")}
+          data={collection}
+          pageSize={5}
+        />
+      </div>
+      <div className={"hidden sm:table"}>
+        <DataTable columns={columns} data={collection} />
+      </div>
     </div>
   );
 }

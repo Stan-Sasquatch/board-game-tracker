@@ -63,7 +63,16 @@ export function PlaysTable({
 }) {
   return (
     <div className="flex px-8 text-white">
-      <DataTable columns={playsTableColumns} data={boardGamePlays} />
+      <div className="sm:hidden">
+        <DataTable
+          columns={playsTableColumns}
+          data={boardGamePlays}
+          pageSize={5}
+        />
+      </div>
+      <div className={"hidden sm:table"}>
+        <DataTable columns={playsTableColumns} data={boardGamePlays} />
+      </div>
     </div>
   );
 }
