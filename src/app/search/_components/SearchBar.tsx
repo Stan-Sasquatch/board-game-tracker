@@ -58,12 +58,14 @@ export function SearchBar({
 
   return (
     <>
-      <Command className="h-11 min-w-56 max-w-lg">
-        <ControlledCommandInput
-          placeholder="Search for boardgames"
-          defaultValue={boardGameQueryValue}
-          onChange={debouncedOnChange}
-        />
+      <Command className={"w-72 sm:w-96"}>
+        <div className="flex flex-row">
+          <ControlledCommandInput
+            placeholder="Search for boardgames"
+            defaultValue={boardGameQueryValue}
+            onChange={debouncedOnChange}
+          />
+        </div>
         {showResults ? (
           <SearchResults
             results={results}
