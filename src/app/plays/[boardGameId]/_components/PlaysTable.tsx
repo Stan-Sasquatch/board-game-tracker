@@ -30,9 +30,11 @@ export const playsTableColumns: ColumnDef<PlayTableRow>[] = [
     header: () => <div className="text-white">Players</div>,
     id: "players",
     accessorFn: (play) =>
-      play.userPlayGroupMemberPlay
-        .map((p) => p.userPlayGroupMember.nickname)
-        .join(", "),
+      play.userPlayGroupMemberPlay.length > 0
+        ? play.userPlayGroupMemberPlay
+            .map((p) => p.userPlayGroupMember.nickname)
+            .join(", ")
+        : "No players recorded",
   },
 ];
 
