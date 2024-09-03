@@ -5,7 +5,7 @@ import { userBoardGame } from "~/server/db/schema/userBoardGame";
 import { userBoardGamePlay } from "~/server/db/schema/userBoardGamePlay";
 import { currentUser } from "@clerk/nextjs/server";
 
-export async function GetUserBoardGameCollection() {
+export async function GetUserBoardGameCollectionDetail() {
   const clerkUserId = (await currentUser())?.id;
 
   if (!clerkUserId) {
@@ -27,7 +27,9 @@ export async function GetUserBoardGameCollection() {
     .groupBy(boardGame.id);
 }
 
-export type Collection = Awaited<ReturnType<typeof GetUserBoardGameCollection>>;
+export type Collection = Awaited<
+  ReturnType<typeof GetUserBoardGameCollectionDetail>
+>;
 
 export async function GetUserPlayGroupMembers() {
   const clerkUserId = (await currentUser())?.id;

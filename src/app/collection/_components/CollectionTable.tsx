@@ -29,7 +29,7 @@ export function CollectionTable({
         return (
           <div className="flex h-24 flex-col items-center sm:h-auto">
             <Link
-              href={`/collection/${row.original.id}`}
+              href={`/plays/${row.original.id}`}
               className="h-12 self-center overflow-hidden font-semibold text-blue-300 underline transition-all duration-300 ease-in-out hover:text-blue-700 hover:underline-offset-2 sm:h-auto"
             >
               {row.getValue("name")}

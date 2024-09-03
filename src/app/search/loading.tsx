@@ -1,5 +1,5 @@
-import { LoaderIcon } from "lucide-react";
+import { Spinner } from "~/components/ui/spinner";
 
-export default function Spinner() {
-  return <LoaderIcon className="animate-spin" />;
+export default function Loading() {
+  return <Spinner />;
 }
