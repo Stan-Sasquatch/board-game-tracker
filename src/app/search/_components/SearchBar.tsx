@@ -58,9 +58,9 @@ export function SearchBar({
 
   return (
     <>
-      <Command className={"w-72 sm:w-96"}>
+      <Command className="h-11 min-w-56 max-w-lg">
         <ControlledCommandInput
-          placeholder="Search"
+          placeholder="Search for boardgames"
           defaultValue={boardGameQueryValue}
           onChange={debouncedOnChange}
         />
