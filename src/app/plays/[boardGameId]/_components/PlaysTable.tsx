@@ -27,8 +27,26 @@ export const dateOfPlayColumn: ColumnDef<PlayTableRow> = {
 export const playsTableColumns: ColumnDef<PlayTableRow>[] = [
   dateOfPlayColumn,
   {
-    header: () => <div className="text-white">Players</div>,
+    header: ({ column }) => {
+      return <IconSortToggle column={column} headerTitle={"Players"} />;
+    },
     id: "players",
+    sortingFn: (rowA, rowB) => {
+      if (
+        rowA.original.userPlayGroupMemberPlay.length >
+        rowB.original.userPlayGroupMemberPlay.length
+      ) {
+        return 1;
+      }
+      if (
+        rowA.original.userPlayGroupMemberPlay.length <
+        rowB.original.userPlayGroupMemberPlay.length
+      ) {
+        return -1;
+      }
+
+      return 0;
+    },
     accessorFn: (play) =>
       play.userPlayGroupMemberPlay.length > 0
         ? play.userPlayGroupMemberPlay
