@@ -99,6 +99,6 @@ export async function CreateUserBoardGamePlay(
 
   return {
     success: true,
-    message: "Board game successfully added to collection",
+    message: "Play was successfully logged",
   };
 }

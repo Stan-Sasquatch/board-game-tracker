@@ -9,19 +9,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "~/components/ui/collapsible";
+import { Collapsible, CollapsibleContent } from "~/components/ui/collapsible";
 
 import { useForm, useController, type Control } from "react-hook-form";
 import { DatePicker } from "~/components/ui/date-picker";
 import { MultiSelect } from "~/components/ui/multi-select";
 import { AddPlayGroupMembers } from "./AddPlayGroupMembers";
-import { ChevronDown, ChevronRight } from "lucide-react";
 import { CreateUserBoardGamePlay } from "../actions";
-import { useEffect, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { useToast } from "~/components/ui/use-toast";
 import { CollapsibleContentToggle } from "~/components/collapsible-content-toggle";
 
@@ -68,9 +63,7 @@ export function AddPlayModal({
     startTransition(async () => {
       const result = await CreateUserBoardGamePlay(data, boardGameId);
       toast({
-        title: result.success
-          ? "Succesfully logged play"
-          : "Uh oh! Something went wrong.",
+        title: result.success ? "Success" : "Uh oh! Something went wrong.",
         description: result.message,
       });
     });
