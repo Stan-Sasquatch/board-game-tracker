@@ -1,5 +1,4 @@
 "use client";
-import { Button } from "~/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -14,9 +13,7 @@ export function SearchInfoModal() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="h-11 text-black" type="button" variant="outline">
-          <Info size={15} />
-        </Button>
+        <Info size={20} />
       </DialogTrigger>
       <DialogContent className="grid gap-4 px-4 py-4 sm:max-w-[425px]">
         <DialogHeader>
