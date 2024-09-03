@@ -1,7 +1,7 @@
 import { db } from "~/server/db";
 import { currentUser } from "@clerk/nextjs/server";
 import { notFound } from "next/navigation";
-import { eq } from "drizzle-orm/sql";
+import { and, eq } from "drizzle-orm/sql";
 import { boardGame } from "~/server/db/schema/boardGame";
 import { userBoardGame } from "~/server/db/schema/userBoardGame";
 
@@ -61,7 +61,13 @@ export async function GetUserBoardGameCollectionList() {
       name: boardGame.name,
     })
     .from(boardGame)
-    .innerJoin(userBoardGame, eq(boardGame.id, userBoardGame.boardGameId))
+    .innerJoin(
+      userBoardGame,
+      and(
+        eq(boardGame.id, userBoardGame.boardGameId),
+        eq(userBoardGame.clerkUserId, clerkUserId),
+      ),
+    )
     .groupBy(boardGame.id);
 }
 

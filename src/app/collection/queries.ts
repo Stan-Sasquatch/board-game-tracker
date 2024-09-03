@@ -1,4 +1,4 @@
-import { eq, sql } from "drizzle-orm/sql";
+import { and, eq, sql } from "drizzle-orm/sql";
 import { db } from "~/server/db";
 import { boardGame } from "~/server/db/schema/boardGame";
 import { userBoardGame } from "~/server/db/schema/userBoardGame";
@@ -19,7 +19,13 @@ export async function GetUserBoardGameCollectionDetail() {
       playCount: sql<number>`cast(count(distinct ${userBoardGamePlay.id}) as integer)`,
     })
     .from(boardGame)
-    .innerJoin(userBoardGame, eq(boardGame.id, userBoardGame.boardGameId))
+    .innerJoin(
+      userBoardGame,
+      and(
+        eq(boardGame.id, userBoardGame.boardGameId),
+        eq(userBoardGame.clerkUserId, clerkUserId),
+      ),
+    )
     .leftJoin(
       userBoardGamePlay,
       eq(userBoardGame.boardGameId, userBoardGamePlay.boardGameId),
