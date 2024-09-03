@@ -14,7 +14,7 @@ export default async function Search({
   const parsedSearchParams = boardGameSearchParamsSchema.parse(searchParams);
   const results = await GetBoardgames(parsedSearchParams);
   return (
-    <div className="flex flex-row items-end pt-24">
+    <div className="flex flex-row items-end pl-9 pt-24">
       <div className="flex flex-col items-center justify-center">
         <SearchBar results={results} key={parsedSearchParams?.selected}>
           <SelectedBoardGame searchParams={parsedSearchParams} />
