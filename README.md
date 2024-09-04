@@ -6,7 +6,6 @@
 
 -[] search filter on collection
 -[] specific bg plays table players style
--[] gmt / bst date sort issue
 
 ## Nice to have
 
