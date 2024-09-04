@@ -31,12 +31,15 @@ export async function SelectedBoardGame({
       <div>
         <SignedOut>
           <div>You&apos;ll need to sign in to add this to your collection</div>
-          <Button variant="outline" className="text-black">
-            <SignInButton
-              mode="modal"
-              forceRedirectUrl={`/search?${params.toString()}`}
-            />
-          </Button>
+
+          <div className="flex justify-center">
+            <Button asChild variant="outline" className="text-black">
+              <SignInButton
+                mode="modal"
+                forceRedirectUrl={`/search?${params.toString()}`}
+              />
+            </Button>
+          </div>
         </SignedOut>
         <SignedIn>
           <CreateUserBoardGame parsedId={parsedId} />
