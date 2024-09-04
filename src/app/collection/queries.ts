@@ -12,25 +12,45 @@ export async function GetUserBoardGameCollectionDetail() {
     throw new Error("Can't get current user");
   }
 
-  return await db
-    .select({
-      id: boardGame.id,
-      name: boardGame.name,
-      playCount: sql<number>`cast(count(distinct ${userBoardGamePlay.id}) as integer)`,
-    })
-    .from(boardGame)
-    .innerJoin(
-      userBoardGame,
-      and(
-        eq(boardGame.id, userBoardGame.boardGameId),
-        eq(userBoardGame.clerkUserId, clerkUserId),
-      ),
-    )
-    .leftJoin(
-      userBoardGamePlay,
-      eq(userBoardGame.boardGameId, userBoardGamePlay.boardGameId),
-    )
-    .groupBy(boardGame.id);
+  return await db.query.userBoardGame.findMany({
+    where: (ubg, { eq }) => eq(ubg.clerkUserId, clerkUserId),
+    with: {
+      boardGame: {
+        columns: {
+          id: true,
+          name: true,
+        },
+      },
+      userBoardGamePlay: {
+        columns: {
+          id: true,
+        },
+      },
+    },
+  });
+
+  // return await db
+  //   .select({
+  //     id: boardGame.id,
+  //     name: boardGame.name,
+  //     playCount: sql<number>`cast(count(distinct ${userBoardGamePlay.id}) as integer)`,
+  //   })
+  //   .from(boardGame)
+  //   .innerJoin(
+  //     userBoardGame,
+  //     and(
+  //       eq(boardGame.id, userBoardGame.boardGameId),
+  //       eq(userBoardGame.clerkUserId, clerkUserId),
+  //     ),
+  //   )
+  //   .innerJoin(
+  //     userBoardGamePlay,
+  //     and(
+  //       eq(boardGame.id, userBoardGame.boardGameId),
+  //       eq(userBoardGame.clerkUserId, clerkUserId),
+  //     ),
+  //   )
+  //   .groupBy(boardGame.id);
 }
 
 export type Collection = Awaited<

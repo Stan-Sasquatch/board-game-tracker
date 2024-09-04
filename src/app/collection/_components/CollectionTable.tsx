@@ -24,12 +24,12 @@ export function CollectionTable({
         );
       },
       id: "name",
-      accessorKey: "name",
+      accessorFn: (ubg) => ubg.boardGame.name,
       cell: ({ row }: { row: Row<Collection[number]> }) => {
         return (
           <div className="flex h-24 flex-col items-center sm:h-auto">
             <Link
-              href={`/plays/${row.original.id}`}
+              href={`/plays/${row.original.boardGame.id}`}
               className="h-12 self-center overflow-hidden text-center font-semibold text-blue-300 underline transition-all duration-300 ease-in-out hover:text-blue-700 hover:underline-offset-2 sm:h-auto"
             >
               {row.getValue("name")}
@@ -37,8 +37,8 @@ export function CollectionTable({
             <div className="py-2 sm:hidden">
               <AddPlayModal
                 userPlayGroupMembers={userPlayGroupMembers}
-                boardGameId={row.original.id}
-                boardGameName={row.original.name}
+                boardGameId={row.original.boardGame.id}
+                boardGameName={row.original.boardGame.name}
               />
             </div>
           </div>
@@ -54,7 +54,7 @@ export function CollectionTable({
         );
       },
       id: "playCount",
-      accessorKey: "playCount",
+      accessorFn: (ubg) => ubg.userBoardGamePlay.length,
       cell: PlayCountCell,
     },
     {
@@ -68,18 +68,21 @@ export function CollectionTable({
             <div className="px-4 py-2">
               <AddPlayModal
                 userPlayGroupMembers={userPlayGroupMembers}
-                boardGameId={row.original.id}
-                boardGameName={row.original.name}
+                boardGameId={row.original.boardGame.id}
+                boardGameName={row.original.boardGame.name}
               />
             </div>
             <div className="px-4 py-2">
-              <RemoveUserBoardGameButton boardGameId={row.original.id} />
+              <RemoveUserBoardGameButton
+                boardGameId={row.original.boardGame.id}
+              />
             </div>
           </div>
         );
       },
     },
   ];
+
   return (
     <div className="w-full px-8 sm:w-auto">
       <h1 className="mb-4 pt-2 text-center text-2xl font-bold">
@@ -104,7 +107,7 @@ function PlayCountCell({ row }: { row: Row<Collection[number]> }) {
     <div className="flex h-24 flex-col items-center sm:h-auto">
       <div className="h-12 sm:h-auto">{row.getValue("playCount")}</div>
       <div className="py-2 sm:hidden">
-        <RemoveUserBoardGameButton boardGameId={row.original.id} />
+        <RemoveUserBoardGameButton boardGameId={row.original.boardGame.id} />
       </div>
     </div>
   );
