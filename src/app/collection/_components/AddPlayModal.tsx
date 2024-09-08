@@ -97,7 +97,7 @@ export function AddPlayModal({
         <DialogTrigger asChild>
           <Button variant="default">Add Play</Button>
         </DialogTrigger>
-        <DialogContent className="grid gap-4 px-4 py-4 sm:max-w-[425px]">
+        <DialogContent className="grid max-h-screen gap-4 overflow-y-scroll px-4 py-4 sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>{`Log a play of ${boardGameName}`}</DialogTitle>
             <DialogDescription>

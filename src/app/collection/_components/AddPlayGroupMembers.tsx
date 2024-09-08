@@ -78,7 +78,7 @@ export function AddPlayGroupMembers({
             {newPlayGroupMembers.map((pgm) => (
               <li
                 key={pgm.nickname}
-                className="flex items-center justify-between gap-4"
+                className="flex items-center justify-between gap-4 pb-2"
               >
                 <span>{pgm.nickname}</span>
                 <Button
