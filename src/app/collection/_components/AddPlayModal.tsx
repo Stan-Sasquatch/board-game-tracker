@@ -47,6 +47,7 @@ export function AddPlayModal({
     control,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm<CreatePlayModel>({
     defaultValues: {
@@ -118,7 +119,7 @@ export function AddPlayModal({
               onOpenChange={setParentAddPlayersOpen}
             >
               <div className="flex">
-                <h3 className="self-center pr-2 font-semibold">
+                <h3 className="self-center pb-4 pr-2 font-semibold">
                   Add players <span>(optional)</span>
                 </h3>
                 <CollapsibleContentToggle open={parentAddPlayersOpen} />
@@ -180,9 +181,16 @@ function AddPlayersFromPlayGroup({
       onOpenChange={setAddPlayGroupPlayersOpen}
     >
       <div className="flex">
-        <h4 className="pr-2">
-          Add players from your <b>playgroup</b>
-        </h4>
+        <div className="flex flex-col pb-2">
+          <h4 className="pr-2">
+            Add players from your <b>playgroup</b>
+          </h4>
+          {players.value.length > 0 && (
+            <div className="font-medium text-green-700">
+              {players.value.length} players added
+            </div>
+          )}
+        </div>
         <CollapsibleContentToggle open={addPlayGroupPlayersOpen} />
       </div>
       <CollapsibleContent className="py-4">
@@ -216,7 +224,14 @@ function AddNewPlayers({
   return (
     <Collapsible open={addNewPlayersOpen} onOpenChange={setAddNewPlayersOpen}>
       <div className="flex">
-        <h4 className="pr-2">Add new players</h4>
+        <div className="flex flex-col pb-2">
+          <h4 className="pr-2">Add new players</h4>
+          {newPlayers.value.length > 0 && (
+            <div className="font-medium text-green-700">
+              {newPlayers.value.length} players added
+            </div>
+          )}
+        </div>
         <CollapsibleContentToggle open={addNewPlayersOpen} />
       </div>
       <CollapsibleContent>
