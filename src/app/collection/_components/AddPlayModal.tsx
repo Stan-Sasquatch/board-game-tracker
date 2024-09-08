@@ -187,7 +187,7 @@ function AddPlayersFromPlayGroup({
           </h4>
           {players.value.length > 0 && (
             <div className="font-medium text-green-700">
-              {players.value.length} players added
+              {players.value.length} player(s) added
             </div>
           )}
         </div>
@@ -228,7 +228,7 @@ function AddNewPlayers({
           <h4 className="pr-2">Add new players</h4>
           {newPlayers.value.length > 0 && (
             <div className="font-medium text-green-700">
-              {newPlayers.value.length} players added
+              {newPlayers.value.length} player(s) added
             </div>
           )}
         </div>
