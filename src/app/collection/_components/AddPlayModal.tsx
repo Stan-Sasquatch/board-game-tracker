@@ -22,8 +22,6 @@ import { CollapsibleContentToggle } from "~/components/collapsible-content-toggl
 
 export type NewPlayer = {
   nickname: string;
-  forename: string | null;
-  surname: string | null;
 };
 
 export type CreatePlayModel = {

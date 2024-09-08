@@ -59,14 +59,12 @@ export async function CreateUserBoardGamePlay(
 
   if (model.newPlayers.length > 0) {
     for (const p of model.newPlayers) {
-      const { nickname, forename, surname } = p;
+      const { nickname } = p;
       const [userPlayGroupMemberResult] = await db
         .insert(userPlayGroupMember)
         .values({
           playGroupOwnerClerkUserId: boardGameOwnerId,
           nickname,
-          forename,
-          surname,
         })
         .returning({ insertedId: userPlayGroupMember.id });
 

@@ -32,8 +32,6 @@ export function AddPlayGroupMembers({
   } = useForm<NewPlayer>({
     defaultValues: {
       nickname: "",
-      forename: null,
-      surname: null,
     },
   });
   return (
@@ -61,40 +59,6 @@ export function AddPlayGroupMembers({
           />
           <Label htmlFor="nickname" className="text-red-600">
             {errors?.nickname?.message}
-          </Label>
-        </div>
-        <div className="py-2">
-          <Label htmlFor="forename">Forename</Label>
-          <Input
-            type="text"
-            id="forename"
-            placeholder="Forename"
-            {...register("forename", {
-              maxLength: {
-                value: 20,
-                message: "Max length is 20",
-              },
-            })}
-          />
-          <Label htmlFor="forename" className="text-red-600">
-            {errors?.forename?.message}
-          </Label>
-        </div>
-        <div className="py-2">
-          <Label htmlFor="surname">Surname</Label>
-          <Input
-            type="text"
-            id="surname"
-            placeholder="Surname"
-            {...register("surname", {
-              maxLength: {
-                value: 20,
-                message: "Max length is 20",
-              },
-            })}
-          />
-          <Label htmlFor="surname" className="text-red-600">
-            {errors?.surname?.message}
           </Label>
         </div>
       </div>
