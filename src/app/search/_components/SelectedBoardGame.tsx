@@ -3,6 +3,7 @@ import { type BoardGameSearchParams } from "../models";
 import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 import { db } from "~/server/db";
 import { CreateUserBoardGame } from "./CreateUserBoardGame";
+import { currentUser } from "@clerk/nextjs/server";
 
 export async function SelectedBoardGame({
   searchParams,
@@ -25,26 +26,44 @@ export async function SelectedBoardGame({
     throw new Error(`No board game found with id ${selectedId}`);
   }
 
+  let userOwnedBoardGameIds: number[] | null = null;
+
+  const clerkUserId = (await currentUser())?.id;
+
+  if (clerkUserId) {
+    userOwnedBoardGameIds = (
+      await db.query.userBoardGame.findMany({
+        where: (userBoardGame, { eq }) =>
+          eq(userBoardGame.clerkUserId, clerkUserId),
+        columns: {
+          boardGameId: true,
+        },
+      })
+    ).map((ubg) => ubg.boardGameId);
+  }
+
   return (
     <div>
       <div className="py-2 text-center">{`Selected ${boardGame.name}`}</div>
-      <div>
-        <SignedOut>
-          <div>You&apos;ll need to sign in to add this to your collection</div>
+      <SignedOut>
+        <div>You&apos;ll need to sign in to add this to your collection</div>
 
-          <div className="flex justify-center">
-            <Button asChild variant="outline" className="text-black">
-              <SignInButton
-                mode="modal"
-                forceRedirectUrl={`/search?${params.toString()}`}
-              />
-            </Button>
-          </div>
-        </SignedOut>
-        <SignedIn>
-          <CreateUserBoardGame parsedId={parsedId} />
-        </SignedIn>
-      </div>
+        <div className="flex justify-center">
+          <Button asChild variant="outline" className="text-black">
+            <SignInButton
+              mode="modal"
+              forceRedirectUrl={`/search?${params.toString()}`}
+            />
+          </Button>
+        </div>
+      </SignedOut>
+      <SignedIn>
+        <CreateUserBoardGame
+          parsedId={parsedId}
+          boardGameName={boardGame.name}
+          userOwnedBoardGameIds={userOwnedBoardGameIds}
+        />
+      </SignedIn>
     </div>
   );
 }
